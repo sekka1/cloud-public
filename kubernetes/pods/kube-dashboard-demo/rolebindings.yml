@@ -1,0 +1,23 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    k8s-app: kubernetes-dashboard
+    k8s-addon: kubernetes-dashboard.addons.k8s.io
+  name: kubernetes-dashboard
+  namespace: demo
+
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kubernetes-dashboard
+  namespace: demo
+subjects:
+  - kind: ServiceAccount
+    name: kubernetes-dashboard
+roleRef:
+  kind: ClusterRole
+  name: edit
+  apiGroup: "rbac.authorization.k8s.io"

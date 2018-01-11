@@ -1,0 +1,54 @@
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: butterfly-3
+spec:
+  serviceName: "butterfly-3"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: butterfly-3
+  template:
+    metadata:
+      labels:
+        app: butterfly-3
+    spec:
+      containers:
+      - name: butterfly
+        image: garland/butterfly:latest #garland/butterfly:ubuntu.14.04.4 # quay.io/letsencrypt/letsencrypt:latest
+        #command: ["/bin/bash", "-c", "'", "while", "true;", "do", "echo", "hold;", "sleep", "1;", "done", "'"]
+        args:
+          - "--unsecure"
+          - "--host=0.0.0.0"
+          - "--port=57575"
+          - "--login"
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        env:
+          - name: PASSWORD
+            value: password
+          - name: PORT
+            value: "57575"
+        ports:
+          - containerPort: 57575
+        imagePullPolicy: "Always"
+        volumeMounts:
+        - name: home-folder
+          mountPath: /home
+      nodeSelector:
+        k8s.info/isSpot: "true"
+        k8s.info/hasPublicIP: "false"
+  volumeClaimTemplates:
+  - metadata:
+      name: home-folder
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi

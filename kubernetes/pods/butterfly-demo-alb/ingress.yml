@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: butterfly-1
+  annotations:
+    # lego ssl cert
+    kubernetes.io/ingress.class: "alb"
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/connection-idle-timeout: "3600"
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:us-east-1:126911164279:certificate/6b232211-70b0-41aa-99b1-290d1c6dc9d9"
+    alb.ingress.kubernetes.io/tags: tenant=demo-monroe,Team=test
+spec:
+  tls:
+  - hosts:
+    - butterfly-demo1.demo.devops.bot
+    secretName: butterfly-1
+  rules:
+  - host: butterfly-demo1.demo.devops.bot
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: butterfly-1
+          servicePort: 57575

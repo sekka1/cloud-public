@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: butterfly-3
+  labels:
+    app: butterfly-3
+spec:
+  ports:
+  - port: 57575
+    protocol: TCP
+    targetPort: 57575
+    name: http
+  selector:
+    app: butterfly-3

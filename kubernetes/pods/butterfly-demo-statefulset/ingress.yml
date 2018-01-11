@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: butterfly-3
+  annotations:
+    # Use the classic nginx load balancer with the classic ELB
+    kubernetes.io/ingress.class: "nginx"
+    # Setup Let's Encrypt Certificates
+    kubernetes.io/tls-acme: "true"
+
+spec:
+  tls:
+  - hosts:
+    - butterfly-demo3.demo.devops.bot
+    secretName: butterfly-3
+  rules:
+  - host: butterfly-demo3.demo.devops.bot
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: butterfly-3
+          servicePort: 57575
