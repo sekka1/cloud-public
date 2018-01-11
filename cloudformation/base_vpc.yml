@@ -1,0 +1,606 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An all in one template that creates the entire application in a VPC
+Parameters:
+  InstanceTypeBastionHost:
+    Description: Nat Box Instance Type
+    Type: String
+    Default: t2.small
+    AllowedValues:
+    - t2.nano
+    - t2.micro
+    - t2.small
+    - t2.medium
+    - t2.large
+    - c3.large
+    - c3.xlarge
+    - c3.2xlarge
+    - c3.4xlarge
+    - c3.8xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m1.small
+    - r3.large
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - d2.xlarge
+    - d2.2xlarge
+    - d2.4xlarge
+    - d2.8xlarge
+    ConstraintDescription: must be a valid EC2 instance type.
+  BastionSSHPort:
+    Description: Bastion SSH Port.  We dont want to listen on the standard port of
+      22.
+    Type: String
+    Default: '22022'
+    ConstraintDescription: must be a valid value.
+  KeyName:
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instance
+    Type: String
+    MinLength: '1'
+    MaxLength: '255'
+    AllowedPattern: "[\\x20-\\x7E]*"
+    Default: kube_managed_saas_bastion
+    ConstraintDescription: can contain only ASCII characters.
+  OpenAccess:
+    Description: " The IP address range that can access all ports"
+    Type: String
+    MinLength: '9'
+    MaxLength: '18'
+    Default: 172.16.0.0/12
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})/(\\d{1,2})"
+    ConstraintDescription: must be a valid IP CIDR range of the form x.x.x.x/x.
+  AWSRegion:
+    Description: Available AWS Regions
+    Type: String
+    Default: us-east-1
+    AllowedValues:
+    - us-east-1
+    - us-west-1
+    - us-west-2
+    - sa-east-1
+    - ap-southeast-1
+    - ap-southeast-1
+    - ap-northeast-1
+    - eu-west-1
+    ConstraintDescription: must be a valid AWS region.
+  EnvironmentName:
+    Description: Environment name
+    Type: String
+    Default: development
+  VPCNetwork:
+    Description: Network portion of the VPC /16
+    Type: String
+    Default: '172.16'
+    AllowedPattern: "(\\d{1,3})\\.(\\d{1,3})"
+    ConstraintDescription: 'Must be a valid network address for a /16. Example: 10.11'
+  AvailabilityZone1:
+    Description: 'Availability zone id: a, b, c, d, etc'
+    Type: String
+    Default: a
+    AllowedValues:
+    - a
+    - b
+    - c
+    - d
+    - e
+    ConstraintDescription: must be a availability zone.
+  AvailabilityZone2:
+    Description: 'Availability zone id: a, b, c, d, etc'
+    Type: String
+    Default: b
+    AllowedValues:
+    - a
+    - b
+    - c
+    - d
+    - e
+    ConstraintDescription: must be a availability zone.
+  AvailabilityZone3:
+    Description: 'Availability zone id: a, b, c, d, etc'
+    Type: String
+    Default: c
+    AllowedValues:
+    - a
+    - b
+    - c
+    - d
+    - e
+    ConstraintDescription: must be a availability zone.
+  DomainName:
+    Description: Domain name. Used for the domain search
+    Type: String
+    Default: devops.bot
+Mappings:
+  SubnetConfig:
+    NetworkVPC:
+      CIDR: ".0.0/16"
+    SubnetPublicNet1:
+      CIDR: ".11.0/24"
+    SubnetPublicNet2:
+      CIDR: ".12.0/24"
+    SubnetPublicNet3:
+      CIDR: ".13.0/24"
+    SubnetPublicNet4:
+      CIDR: ".14.0/24"
+  # amzn-ami-hvm-2017.09.1.20180103-x86_64-gp2
+  AMIMappingBastionInstance:
+    us-east-1:
+      AMI: ami-5583d42f
+    us-west-2:
+      AMI: ami-
+    us-west-1:
+      AMI: ami-
+    eu-west-1:
+      AMI: ami-
+    sa-east-1:
+      AMI: ami-
+    ap-southeast-1:
+      AMI: ami-
+    ap-southeast-2:
+      AMI: ami-
+    ap-northeast-1:
+      AMI: ami-
+Resources:
+  # NATIAMRole:
+  #   Type: AWS::IAM::Role
+  #   Properties:
+  #     AssumeRolePolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #       - Effect: Allow
+  #         Principal:
+  #           Service:
+  #           - ec2.amazonaws.com
+  #         Action:
+  #         - sts:AssumeRole
+  #     Path: "/"
+  # NATIAMPolicy:
+  #   Type: AWS::IAM::Policy
+  #   Properties:
+  #     PolicyName: NATIAMPolicy
+  #     PolicyDocument:
+  #       Statement:
+  #       - Effect: Allow
+  #         Action: ec2:Describe*
+  #         Resource: "*"
+  #       - Effect: Allow
+  #         Action: ec2:AttachVolume
+  #         Resource: "*"
+  #       - Effect: Allow
+  #         Action: ec2:DetachVolume
+  #         Resource: "*"
+  #     Roles:
+  #     - Ref: NATIAMRole
+  # NATInstanceProfile:
+  #   Type: AWS::IAM::InstanceProfile
+  #   Properties:
+  #     Path: "/"
+  #     Roles:
+  #     - Ref: NATIAMRole
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      EnableDnsSupport: 'true'
+      EnableDnsHostnames: 'true'
+      CidrBlock:
+        Fn::Join:
+        - ''
+        - - Ref: VPCNetwork
+          - Fn::FindInMap:
+            - SubnetConfig
+            - NetworkVPC
+            - CIDR
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: VPC
+      InternetGatewayId:
+        Ref: InternetGateway
+  RouteTablePublic:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: VPC
+      Tags:
+      - Key: Name
+        Value:
+          Fn::Join:
+          - ''
+          - - Ref: AWS::StackName
+            - " Public"
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+      - Key: Network
+        Value: Public
+  NetworkAcl:
+    Type: AWS::EC2::NetworkAcl
+    Properties:
+      VpcId:
+        Ref: VPC
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+  RoutePublic:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId:
+        Ref: RouteTablePublic
+      DestinationCidrBlock: 0.0.0.0/0
+      # NatGatewayId:
+      #   Ref: NatGateway1
+      GatewayId:
+        Ref: InternetGateway
+  InboundResponsePortsNetworkAclEntry:
+    Type: AWS::EC2::NetworkAclEntry
+    Properties:
+      NetworkAclId:
+        Ref: NetworkAcl
+      RuleNumber: '102'
+      Protocol: "-1"
+      RuleAction: allow
+      Egress: 'false'
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: '1'
+        To: '65535'
+      Icmp:
+        Code: "-1"
+        Type: "-1"
+  OutBoundResponsePortsNetworkAclEntry:
+    Type: AWS::EC2::NetworkAclEntry
+    Properties:
+      NetworkAclId:
+        Ref: NetworkAcl
+      RuleNumber: '102'
+      Protocol: "-1"
+      RuleAction: allow
+      Egress: 'true'
+      CidrBlock: 0.0.0.0/0
+      PortRange:
+        From: '1'
+        To: '65535'
+      Icmp:
+        Code: "-1"
+        Type: "-1"
+  SecurityGroupBastion:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId:
+        Ref: VPC
+      GroupDescription: Bastion SG
+      SecurityGroupIngress:
+      - IpProtocol: "6"
+        FromPort:
+         Ref: BastionSSHPort
+        ToPort:
+          Ref: BastionSSHPort
+        CidrIp: 0.0.0.0/0
+  SecurityGroupWideOpen:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId:
+        Ref: VPC
+      GroupDescription: A wide open security group.  Mainly used for testing.
+      SecurityGroupIngress:
+      - IpProtocol: "-1"
+        FromPort: '1'
+        ToPort: '65535'
+        CidrIp:
+          Ref: OpenAccess
+  SubnetPublicNet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Join:
+        - ''
+        - - Ref: AWSRegion
+          - Ref: AvailabilityZone1
+      VpcId:
+        Ref: VPC
+      CidrBlock:
+        Fn::Join:
+        - ''
+        - - Ref: VPCNetwork
+          - Fn::FindInMap:
+            - SubnetConfig
+            - SubnetPublicNet1
+            - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value:
+          Fn::Join:
+          - ''
+          - - Ref: AWS::StackName
+            - Ref: AvailabilityZone1
+            - " Public"
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+      - Key: functionality
+        Value: elb nat
+      - Key: AvailabilityZone
+        Value:
+          Ref: AvailabilityZone1
+  SubnetRouteTableAssociationSubnetPublicNet1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet1
+      RouteTableId:
+        Ref: RouteTablePublic
+  SubnetNetworkAclAssociationSubnetPublicNet1:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet1
+      NetworkAclId:
+        Ref: NetworkAcl
+  SubnetPublicNet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Join:
+        - ''
+        - - Ref: AWSRegion
+          - Ref: AvailabilityZone2
+      VpcId:
+        Ref: VPC
+      CidrBlock:
+        Fn::Join:
+        - ''
+        - - Ref: VPCNetwork
+          - Fn::FindInMap:
+            - SubnetConfig
+            - SubnetPublicNet2
+            - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value:
+          Fn::Join:
+          - ''
+          - - Ref: AWS::StackName
+            - Ref: AvailabilityZone2
+            - " Public"
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+      - Key: functionality
+        Value: elb nat
+      - Key: AvailabilityZone
+        Value:
+          Ref: AvailabilityZone2
+  SubnetRouteTableAssociationSubnetPublicNet2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet2
+      RouteTableId:
+        Ref: RouteTablePublic
+  SubnetNetworkAclAssociationSubnetPublicNet2:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet2
+      NetworkAclId:
+        Ref: NetworkAcl
+  SubnetPublicNet3:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Join:
+        - ''
+        - - Ref: AWSRegion
+          - Ref: AvailabilityZone3
+      VpcId:
+        Ref: VPC
+      CidrBlock:
+        Fn::Join:
+        - ''
+        - - Ref: VPCNetwork
+          - Fn::FindInMap:
+            - SubnetConfig
+            - SubnetPublicNet3
+            - CIDR
+      MapPublicIpOnLaunch: true
+      Tags:
+      - Key: Name
+        Value:
+          Fn::Join:
+          - ''
+          - - Ref: AWS::StackName
+            - Ref: AvailabilityZone3
+            - " Public"
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+      - Key: functionality
+        Value: elb nat
+      - Key: AvailabilityZone
+        Value:
+          Ref: AvailabilityZone3
+  SubnetRouteTableAssociationSubnetPublicNet3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet3
+      RouteTableId:
+        Ref: RouteTablePublic
+  SubnetNetworkAclAssociationSubnetPublicNet3:
+    Type: AWS::EC2::SubnetNetworkAclAssociation
+    Properties:
+      SubnetId:
+        Ref: SubnetPublicNet3
+      NetworkAclId:
+        Ref: NetworkAcl
+  # NatGateway1:
+  #   DependsOn: AttachGateway
+  #   Type: AWS::EC2::NatGateway
+  #   Properties:
+  #     AllocationId:
+  #       Fn::GetAtt:
+  #       - IPAddressNatGateway1
+  #       - AllocationId
+  #     SubnetId:
+  #       Ref: SubnetPublicNet1
+  #     Tags:
+  #       - Key: foo
+  #         Value: bar
+  # IPAddressNatGateway1:
+  #   Type: AWS::EC2::EIP
+  #   Properties:
+  #     Domain: vpc
+  EC2BastionHosta:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId:
+        Fn::FindInMap:
+        - AMIMappingBastionInstance
+        - Ref: AWS::Region
+        - AMI
+      InstanceType:
+        Ref: InstanceTypeBastionHost
+      # IamInstanceProfile:
+      #   Ref: NATInstanceProfile
+      KeyName:
+        Ref: KeyName
+      SubnetId:
+        Ref: SubnetPublicNet1
+      SecurityGroupIds:
+      - Ref: SecurityGroupBastion
+      SourceDestCheck: 'false'
+      UserData:
+        Fn::Base64:
+          Fn::Join:
+          - ''
+          - - "#cloud-config\n\n"
+            - 'runcmd:'
+            - "\n"
+            - "  - sed -i -e '/^#Port/s/^.*$/Port "
+            - Fn::Join:
+              - ''
+              - - Ref: BastionSSHPort
+            - "/' /etc/ssh/sshd_config"
+            - "\n"
+            - "  - sed -i -e '/^#PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config"
+            - "\n"
+            - "  - /etc/init.d/sshd restart"
+            - "\n"
+      Tags:
+      - Key: Name
+        Value:
+          Fn::Join:
+          - ''
+          - - Ref: EnvironmentName
+            - _BastionHost-1a
+      - Key: EnvironmentName
+        Value:
+          Ref: EnvironmentName
+      - Key: KubernetesCluster
+        Value:
+          Ref: AWS::StackName
+      - Key: Functionality
+        Value: Bastion host in subnet 1
+      - Key: CreatedFrom
+        Value: CloudFormation
+  IPAddressBastionHosta:
+    Type: AWS::EC2::EIP
+    DependsOn: AttachGateway
+    Properties:
+      Domain: vpc
+      InstanceId:
+        Ref: EC2BastionHosta
+Outputs:
+  VPC:
+    Description: VPC ID
+    Value:
+      Ref: VPC
+  BastionHost:
+    Description: Bastion host
+    Value:
+      Fn::GetAtt:
+      - EC2BastionHosta
+      - PublicIp
+  BastionHostSSHPort:
+    Description: Bastion host's SSH port
+    Value:
+      Ref: BastionSSHPort
+  BastionHostInstanceId:
+    Description: Bastion host instance id
+    Value:
+      Ref: EC2BastionHosta
+  SubnetPublicNet1:
+    Description: SubnetPublicNet1 ID
+    Value:
+      Ref: SubnetPublicNet1
+  SubnetPublicNet2:
+    Description: SubnetPublicNet2 ID
+    Value:
+      Ref: SubnetPublicNet2
+  SubnetPublicNet3:
+    Description: SubnetPublicNet3 ID
+    Value:
+      Ref: SubnetPublicNet3
+  # NatGateway1:
+  #   Description: Nat Gateway 1 ID - zone a
+  #   Value:
+  #     Ref: NatGateway1
