@@ -6,14 +6,14 @@ metadata:
     k8s-app: kubernetes-dashboard
     k8s-addon: kubernetes-dashboard.addons.k8s.io
   name: kubernetes-dashboard
-  namespace: demo
+  #namespace: demo
 
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: kubernetes-dashboard
-  namespace: demo
+  #namespace: demo
 subjects:
   - kind: ServiceAccount
     name: kubernetes-dashboard

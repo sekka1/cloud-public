@@ -9,7 +9,7 @@ metadata:
     version: v1.6.3
     kubernetes.io/cluster-service: "true"
   name: kubernetes-dashboard
-  namespace: demo
+  #namespace: demo
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -66,7 +66,7 @@ metadata:
     k8s-app: kubernetes-dashboard
     #kubernetes.io/cluster-service: "true"
   name: kubernetes-dashboard
-  namespace: demo
+  #namespace: demo
 spec:
   ports:
   - port: 80
