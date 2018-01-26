@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: kube-saas-efs-us-east-1-demo
+spec:
+  storageClassName: nfs-class
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
