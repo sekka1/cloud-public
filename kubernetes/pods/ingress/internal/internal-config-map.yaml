@@ -1,0 +1,29 @@
+#
+# options: https://github.com/kubernetes/contrib/blob/fffce5f4f933e581850b9ca67aef8b05d49650ac/ingress/controllers/nginx/examples/custom-configuration/README.md
+#
+apiVersion: v1
+data:
+  # https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx#http-strict-transport-security
+  hsts: "false"
+  hsts-include-subdomains: "false"
+  force-hsts: "false"
+  body-size: "100m"
+  server-name-hash-bucket-size: "100"
+  # https://github.com/kubernetes/contrib/tree/master/ingress/controllers/nginx#nginx-status-page
+  enable-vts-status: "true"
+  # Timeouts for stuff like websockets
+  proxy-read-timeout: "600"
+  proxy-send-timeout: "600"
+  # To allow larger post sizes
+  # https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md#custom-max-body-size
+  proxy-body-size: "50m"
+  # Disables server and build info from Server header in nginx error pages (violates PCI compliance)
+  # http://nginx.org/en/docs/http/ngx_http_core_module.html#server_tokens
+  server-tokens: "false"
+  # mod security
+  # https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/modsecurity.md
+  enable-modsecurity: "true"
+kind: ConfigMap
+metadata:
+  name: internal-nginx-load-balancer-conf
+  namespace: infrastructure
