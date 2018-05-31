@@ -1,0 +1,6 @@
+---
+context: dev.us-east-1.k8s.tillster.com
+global:
+  namespace: devops
+include:
+  - name: ../../../../pods/grafana

@@ -1,0 +1,74 @@
+# example template: https://github.com/coreos/prometheus-operator/blob/master/helm/grafana/templates/grafana-deployment.yaml
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: {{ .namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        # build_number: "${BUILD_NUMBER}"
+    spec:
+      # nodeSelector:
+      #   caste: devops
+      containers:
+        - name: grafana
+          image: "grafana/grafana:5.1.2"
+          env:
+          - name: GF_AUTH_BASIC_ENABLED
+            value: "true"
+          # - name: GF_SERVER_ROOT_URL
+          #   value: "http://grafana.${ENVIRONMENT}.${BASE_DOMAIN_NAME}"
+          - name: GF_SECURITY_ADMIN_USER
+            value: "admin-grafana"
+          - name: GF_SECURITY_ADMIN_PASSWORD
+            value: "abcdefg"
+          - name: GF_INSTALL_PLUGINS
+            value: grafana-kubernetes-app
+          ports:
+          - name: web
+            containerPort: 3000
+          resources:
+            requests:
+              memory: 100Mi
+              cpu: 100m
+            limits:
+              memory: 200Mi
+              cpu: 200m
+          volumeMounts:
+          - name: grafana-dashboards
+            mountPath: /var/lib/grafana
+
+        - name: grafana-watcher
+          image: quay.io/coreos/grafana-watcher:v0.0.8
+          args:
+            - '--watch-dir=/var/grafana-dashboards'
+            - '--grafana-url=http://localhost:3000'
+          env:
+          - name: GRAFANA_USER
+            value: "admin-grafana"
+          - name: GRAFANA_PASSWORD
+            value: "abcdefg"
+          volumeMounts:
+          - name: grafana-dashboards
+            mountPath: /var/grafana-dashboards
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "50m"
+            limits:
+              memory: "32Mi"
+              cpu: "100m"
+
+
+      volumes:
+      - name: grafana-dashboards
+        configMap:
+          name: grafana-dashboards

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: grafana
+  name: grafana-dashboards
+  namespace: {{ .namespace }}
+data:
+  prometheus-datasource.json: |
+    {"name":"prometheus","type":"prometheus","url":"http://prometheus:9090","access":"proxy","basicAuth":false}
+  # Values (file names) must be named "*-dashboard.json".
+  pods-dashboard.json: {{ insertFile "./dashboards/pods-dashboard.json" | json }}
