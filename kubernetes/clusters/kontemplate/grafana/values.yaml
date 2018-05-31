@@ -2,5 +2,6 @@
 context: dev.us-east-1.k8s.tillster.com
 global:
   namespace: devops
+  url_hostname: grafana.demo.devops.bot
 include:
   - name: ../../../../pods/grafana

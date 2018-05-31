@@ -11,10 +11,9 @@ spec:
   tls:
   - secretName: tls-secret-grafana
     hosts:
-    #- grafana.internal.${ENVIRONMENT}.${BASE_DOMAIN_NAME}
-    - grafana.demo.devops.bot
+    - {{ .url_hostname }}
   rules:
-  - host: grafana.demo.devops.bot
+  - host: {{ .url_hostname }}
     http:
       paths:
       - path: /
