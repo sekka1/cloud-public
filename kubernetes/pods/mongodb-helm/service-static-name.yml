@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongodb-replicaset
+  name: mongodb
+spec:
+  ports:
+  - name: peer
+    port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongodb-replicaset
+  sessionAffinity: None
+  clusterIP: None
