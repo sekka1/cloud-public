@@ -176,6 +176,10 @@ dashboards:
    gnetId: 6336
    revision: 1
    datasource: Prometheus
+ kubernetes-cluster:
+   gnetId: 6417
+   revision: 1
+   datasource: Prometheus
 #  local-dashboard:
 #    url: https://example.com/repository/test.json
 
