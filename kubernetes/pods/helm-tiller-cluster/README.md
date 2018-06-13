@@ -1,11 +1,12 @@
 Helm Tiller
 ===============
+This Tiller has access to the entire cluster
 
 # RBAC
 Since we are using RBAC, we need to give the Tiller admin permissions
 
 ```
-kubectl create -f clusterrolebinding.yaml
+kubectl create -f rbac.yaml
 ```
 
 More information about various RBAC setup: https://github.com/kubernetes/helm/blob/master/docs/rbac.md
