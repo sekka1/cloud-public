@@ -61,15 +61,15 @@ Create a user:
 use admin
 db.createUser(
   {
-    user: "coupons",
-    pwd: "coupons_Pass321",
+    user: "myapp",
+    pwd: "myapp_Pass321",
     roles: [ { role: "dbOwner", db: "coupon-management" } ]
   }
 )
 
 
 use coupon-management
-db.auth("coupons", "coupons_Pass321" )
+db.auth("myapp", "myapp_Pass321" )
 ```
 
 ## Verifying the replicaset
