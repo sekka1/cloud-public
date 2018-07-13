@@ -12,7 +12,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "butterfly-4.istio.demo.devops.bot"
+    - "butterfly-4.istio.prod-1.devops.bot"
 
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -21,7 +21,7 @@ metadata:
   name: butterfly-4-istio
 spec:
   hosts:
-  - "butterfly-4.istio.demo.devops.bot"
+  - "butterfly-4.istio.prod-1.devops.bot"
   gateways:
   - butterfly-4-istio-gateway
   http:
