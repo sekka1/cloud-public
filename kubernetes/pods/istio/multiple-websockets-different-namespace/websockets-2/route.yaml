@@ -7,7 +7,7 @@ spec:
   hosts:
   - "tornado-0.8.0-2.demo.istio-2.prod-1.k8s.devops.bot"
   gateways:
-  - gateway-1
+  - gateway-2
   http:
   - match:
     - uri:
