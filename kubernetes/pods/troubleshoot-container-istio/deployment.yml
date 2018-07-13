@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: troubleshoot-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: troubleshoot-container
+  template:
+    metadata:
+      labels:
+        app: troubleshoot-container
+        version: v1
+    spec:
+      initContainers:
+      - name: init-myservice
+        image: busybox
+        command: ['sh', '-c', 'sleep 2;']
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+      containers:
+      - name: ubuntu
+        image: ubuntu:18.04
+        command: ["/bin/sh", "-c", "sleep 999999"]
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+          requests:
+            cpu: 100m
+            memory: 50Mi
+        # env:
+        #   - name: PASSWORD
+        #     value: password
+        #   - name: PORT
+        #     value: "57575"
+        # ports:
+        #   - containerPort: 57575
+        imagePullPolicy: "Always"
+      nodeSelector:
+        k8s.info/isSpot: "true"
+        k8s.info/hasPublicIP: "false"
