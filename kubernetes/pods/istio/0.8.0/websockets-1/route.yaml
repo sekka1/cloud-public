@@ -5,7 +5,7 @@ metadata:
   name: tornado-1
 spec:
   hosts:
-  - "tornado-0.8.0-1.istio.prod-1.devops.bot"
+  - "tornado-0.8.0-1.demo.istio-1.prod-1.k8s.devops.bot"
   gateways:
   - gateway-1
   http:

@@ -14,21 +14,3 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-
----
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: gateway-1
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "www.site1.com"
-    - "www.site2.com"
