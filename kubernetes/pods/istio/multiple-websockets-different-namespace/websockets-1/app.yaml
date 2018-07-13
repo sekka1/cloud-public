@@ -1,0 +1,32 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tornado-1
+  labels:
+    app: tornado-1
+spec:
+  ports:
+  - port: 8888
+    name: http
+  selector:
+    app: tornado-1
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tornado-1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tornado-1
+        version: v1
+    spec:
+      containers:
+      - name: tornado
+        image: hiroakis/tornado-websocket-example
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888

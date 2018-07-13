@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tornado-2
+spec:
+  hosts:
+  - "tornado-0.8.0-2.demo.istio-2.prod-1.k8s.devops.bot"
+  gateways:
+  - gateway-1
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: tornado-2
+      weight: 100
+    websocketUpgrade: true
