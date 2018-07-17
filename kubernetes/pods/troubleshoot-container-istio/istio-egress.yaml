@@ -5,7 +5,7 @@ metadata:
   name: allow-egress-http
 spec:
   hosts:
-  - "*"
+  - "*.ubuntu.com"
   ports:
   - number: 80
     name: http
