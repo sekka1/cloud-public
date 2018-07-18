@@ -7,7 +7,7 @@ Using helm version: 2.8.1
 
 # Installing:
 ```
-export KUBE_NAMESPACE=dev-sb-us-a
+export KUBE_NAMESPACE=rabbitmq
 ```
 
 ```
