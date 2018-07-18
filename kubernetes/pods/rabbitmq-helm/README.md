@@ -1,4 +1,4 @@
-MongoDB
+RabbitMQ
 ============
 
 We are using this helm chart: https://github.com/kubernetes/charts/tree/master/stable/rabbitmq-ha
