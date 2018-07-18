@@ -5,8 +5,32 @@ We are using this helm chart: https://github.com/kubernetes/charts/tree/master/s
 
 Using helm version: v2.9.0
 
+# Using with make file:
+```
+export KUBE_NAMESPACE=infrastructure
+```
 
-# Installing:
+## Install:
+```
+make install
+```
+
+## Updating:
+```
+make upgrade
+```
+
+## Deleting:
+```
+make delete
+```
+
+## Listing helm charts:
+```
+make list
+```
+
+# Installing Manually:
 ```
 export KUBE_NAMESPACE=devops
 ```

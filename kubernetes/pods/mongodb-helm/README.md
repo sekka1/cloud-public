@@ -5,8 +5,32 @@ Helm chart: https://github.com/kubernetes/charts/tree/master/stable/mongodb-repl
 
 Using helm version: 2.8.1
 
+# Using with make file:
+```
+export KUBE_NAMESPACE=infrastructure
+```
 
-# Installing:
+## Install:
+```
+make install
+```
+
+## Updating:
+```
+make upgrade
+```
+
+## Deleting:
+```
+make delete
+```
+
+## Listing helm charts:
+```
+make list
+```
+
+# Installing Manually:
 ```
 export KUBE_NAMESPACE=demo-mongo
 ```
