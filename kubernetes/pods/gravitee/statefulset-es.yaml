@@ -1,0 +1,107 @@
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  labels:
+    k8s-app: elasticsearch-logging
+    kubernetes.io/cluster-service: "true"
+    version: v1
+  name: elasticsearch-logging-v1
+spec:
+  serviceName: "elasticsearch-logging"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: elasticsearch-logging
+        kubernetes.io/cluster-service: "true"
+        version: v1
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: elasticsearch-logging
+        image: docker.elastic.co/elasticsearch/elasticsearch:5.6.3
+        imagePullPolicy: IfNotPresent
+        command: [
+            "/bin/sh",
+            "-c",
+            "cp /tmp/elasticsearch.yml/elasticsearch.yml /usr/share/elasticsearch/config/elasticsearch.yml; exec bin/elasticsearch"
+        ]
+        ports:
+        - containerPort: 9200
+          name: db
+          protocol: TCP
+        - containerPort: 9300
+          name: transport
+          protocol: TCP
+        resources:
+          limits:
+            cpu: "2"
+            memory: "2048Mi"
+          requests:
+            cpu: "250m"
+            memory: "256Mi"
+        env:
+          - name: http.host
+            value: 0.0.0.0
+          - name: transport.host
+            value: 0.0.0.0
+          - name: xpack.security.enabled
+            value: "false"
+          - name: xpack.monitoring.enabled
+            value: "false"
+          - name: cluster.name
+            value: elasticsearch
+          - name: bootstrap.memory_lock
+            value: "true"
+          - name: ES_JAVA_OPTS
+            value: "-Xms512m -Xmx512m"
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /data
+          name: es-persistent-storage
+        - name: es-configs
+          #mountPath: /usr/share/elasticsearch/config
+          mountPath: /tmp/elasticsearch.yml
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      # - emptyDir: {}
+      #   name: es-persistent-storage
+      - name: es-configs
+        configMap:
+          name: es-configs
+  volumeClaimTemplates:
+  - metadata:
+      name: es-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+# Headless service
+# https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-identity
+# https://kubernetes.io/docs/concepts/services-networking/service/#headless-services
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+    k8s-app: elasticsearch-logging
+    kubernetes.io/cluster-service: "true"
+    kubernetes.io/name: Elasticsearch
+  name: elasticsearch-logging
+spec:
+  ports:
+  - port: 9200
+    protocol: TCP
+    targetPort: db
+  selector:
+    k8s-app: elasticsearch-logging
+  sessionAffinity: None
+  clusterIP: None

@@ -1,0 +1,75 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gravitee-gateway
+  labels:
+    app: gravitee-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gravitee-gateway
+  template:
+    metadata:
+      labels:
+        app: gravitee-gateway
+    spec:
+      containers:
+      - name: gravitee-gateway
+        image: graviteeio/gateway:latest
+        env:
+          - name: GRAVITEE_MANAGEMENT_MONGODB_URI
+            value: "mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
+          - name: gravitee_ratelimit_mongodb_uri
+            value: "mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
+          - name: gravitee_reporters_elasticsearch_endpoints_0
+            value: http://elasticsearch-logging:9200
+        ports:
+        - containerPort: 8082
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gravitee-gateway
+  labels:
+    app: gravitee-gateway
+spec:
+  ports:
+  - port: 8082
+    protocol: TCP
+  selector:
+    app: gravitee-gateway
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gravitee-gateway
+  annotations:
+    # Use the classic nginx load balancer with the classic ELB
+    kubernetes.io/ingress.class: "nginx"
+    # Setup Let's Encrypt Certificates
+    kubernetes.io/tls-acme: "true"
+
+spec:
+  tls:
+  - hosts:
+    - gravitee-gateway.lyfted.demo.devops.bot
+    secretName: gravitee-gateway
+  rules:
+  - host: gravitee-gateway.lyfted.demo.devops.bot
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: gravitee-gateway
+          servicePort: 8083
