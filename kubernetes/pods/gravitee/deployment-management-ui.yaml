@@ -10,6 +10,11 @@ spec:
   selector:
     matchLabels:
       app: gravitee-management-ui
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -20,7 +25,7 @@ spec:
         image: graviteeio/management-ui:latest
         env:
           - name: MGMT_API_URL
-            value: http://gravitee-management-api.lyfted.demo.devops.bot/management/
+            value: https://gravitee-management-api.lyfted.demo.devops.bot/management/
         ports:
         - containerPort: 80
         resources:
