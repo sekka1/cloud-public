@@ -165,7 +165,7 @@ dashboards:
    revision: 1
    datasource: Prometheus
  kubernetes-resource-requests:
-   gnetId: 3149
+   gnetId: 7187
    revision: 1
    datasource: Prometheus
  kubernetes-capacity:
