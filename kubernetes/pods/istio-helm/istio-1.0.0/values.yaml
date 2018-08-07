@@ -186,11 +186,11 @@ ingress:
 gateways:
   enabled: true
 
-  istio-ingressgateway:
+  istio-ingressgateway-1:
     enabled: true
     labels:
-      app: istio-ingressgateway
-      istio: ingressgateway
+      app: istio-ingressgateway-1
+      istio: ingressgateway-1
     replicaCount: 1
     autoscaleMin: 1
     autoscaleMax: 5
@@ -218,6 +218,62 @@ gateways:
     - port: 31400
       name: tcp
       nodePort: 31400
+    # Pilot and Citadel MTLS ports are enabled in gateway - but will only redirect
+    # to pilot/citadel if global.meshExpansion settings are enabled.
+    - port: 15011
+      targetPort: 15011
+      name: tcp-pilot-grpc-tls
+    - port: 8060
+      targetPort: 8060
+      name: tcp-citadel-grpc-tls
+    # Telemetry-related ports are enabled in gateway - but will only redirect if
+    # the gateway configration for the various components are enabled.
+    - port: 15030
+      targetPort: 15030
+      name: http2-prometheus
+    - port: 15031
+      targetPort: 15031
+      name: http2-grafana
+    secretVolumes:
+    - name: ingressgateway-certs
+      secretName: istio-ingressgateway-certs
+      mountPath: /etc/istio/ingressgateway-certs
+    - name: ingressgateway-ca-certs
+      secretName: istio-ingressgateway-ca-certs
+      mountPath: /etc/istio/ingressgateway-ca-certs
+
+  istio-ingressgateway-2:
+    enabled: true
+    labels:
+      app: istio-ingressgateway-2
+      istio: ingressgateway-2
+    replicaCount: 1
+    autoscaleMin: 1
+    autoscaleMax: 5
+    resources: {}
+      # limits:
+      #  cpu: 100m
+      #  memory: 128Mi
+      #requests:
+      #  cpu: 1800m
+      #  memory: 256Mi
+
+    loadBalancerIP: ""
+    serviceAnnotations: {}
+    type: LoadBalancer #change to NodePort, ClusterIP or LoadBalancer if need be
+
+    ports:
+      ## You can add custom gateway ports
+    - port: 80
+      targetPort: 80
+      name: http2
+      nodePort: 31381
+    - port: 443
+      name: https
+      nodePort: 31391
+    - port: 31400
+      name: tcp
+      nodePort: 31401
     # Pilot and Citadel MTLS ports are enabled in gateway - but will only redirect
     # to pilot/citadel if global.meshExpansion settings are enabled.
     - port: 15011
@@ -520,7 +576,7 @@ kiali:
 # gateway must be updated by adding 'secretVolumes'. After the gateway
 # restart, DestinationRules can be created using the ACME-signed certificates.
 certmanager:
-  enabled: false
+  enabled: true
   hub: quay.io/jetstack
   tag: v0.3.1
   resources: {}
