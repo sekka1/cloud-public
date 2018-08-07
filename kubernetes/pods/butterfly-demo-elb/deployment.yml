@@ -1,9 +1,12 @@
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
 metadata:
   name: butterfly-2
 spec:
+  selector:
+    matchLabels:
+      app: butterfly-2
   replicas: 1
   template:
     metadata:
@@ -12,8 +15,9 @@ spec:
     spec:
       containers:
       - name: butterfly
-        image: garland/butterfly:latest #garland/butterfly:ubuntu.14.04.4 # quay.io/letsencrypt/letsencrypt:latest
-        #command: ["/bin/bash", "-c", "'", "while", "true;", "do", "echo", "hold;", "sleep", "1;", "done", "'"]
+        image: garland/butterfly:latest
+        ports:
+        - containerPort: 80
         args:
           - "--unsecure"
           - "--host=0.0.0.0"
