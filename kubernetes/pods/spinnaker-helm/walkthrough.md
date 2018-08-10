@@ -1,3 +1,17 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Spinnaker Walk Through](#spinnaker-walk-through)
+  - [Important Installation Considerations](#important-installation-considerations)
+  - [Installation](#installation)
+  - [Post installation step](#post-installation-step)
+    - [Enable permission to the service account](#enable-permission-to-the-service-account)
+    - [Create namespace for your deployment](#create-namespace-for-your-deployment)
+  - [Deploying and Scaling a Containerized Application through Spinnaker](#deploying-and-scaling-a-containerized-application-through-spinnaker)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Spinnaker Walk Through
 
 ## Important Installation Considerations
