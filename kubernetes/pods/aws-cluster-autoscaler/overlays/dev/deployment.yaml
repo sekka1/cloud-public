@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+spec:
+  template:
+    spec:
+      containers:
+        - name: cluster-autoscaler
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=aws
+            - --skip-nodes-with-local-storage=false
+            - --scan-interval=60s
+            # https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#common-notes-and-gotchas
+            - --expander=least-waste
+            - --scale-down-unneeded-time=5m
+            - --balance-similar-node-groups=true
+            - --nodes=0:10:infrastructure-zone-a.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:infrastructure-zone-b.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:infrastructure-zone-c.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:infrastructure-zone-d.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:infrastructure-zone-e.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:infrastructure-zone-f.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-a.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-b.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-c.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-d.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-e.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-master-zone-f.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-a.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-b.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-c.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-d.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-e.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:jenkins-workers-zone-f.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-a.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-b.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-c.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-d.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-e.tools.us-east-1.k8s.devops.bot
+            - --nodes=0:10:on-demand-zone-f.tools.us-east-1.k8s.devops.bot
