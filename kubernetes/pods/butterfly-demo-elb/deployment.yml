@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: butterfly
-        image: garland/butterfly:latest
+        image: garland/butterfly:3.2.3
         ports:
         - containerPort: 80
         args:
