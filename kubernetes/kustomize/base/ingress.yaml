@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins
+  annotations:
+    # lego ssl cert
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+    # Whitelist doc: https://github.com/kubernetes/ingress-nginx/blob/master/docs/user-guide/annotations.md#whitelist-source-range
+    # 192.30.252.0/22,185.199.108.0/22 - github whitelist: https://help.github.com/articles/github-s-ip-addresses/
+    # 104.192.143.192/28,104.192.143.208/28,104.192.143.0/24,34.198.203.127/32,34.198.178.64/32,34.198.32.85/32 - Bitbucket - hooks outbound
+    # 104.192.143.0/24 - Bitbucket - https://confluence.atlassian.com/bitbucket/what-are-the-bitbucket-cloud-ip-addresses-i-should-use-to-configure-my-corporate-firewall-343343385.html
+    # 199.187.241.155/32 Palo Alto VPN
+    # 12.226.147.46/32 Corp Office SD
+    # 199.187.241.131/32 Old VPN??
+    nginx.ingress.kubernetes.io/whitelist-source-range: 192.30.252.0/22,185.199.108.0/22,104.192.143.192/28,104.192.143.208/28,104.192.143.0/24,34.198.203.127/32,34.198.178.64/32,34.198.32.85/32,104.192.143.0/24,199.187.241.155/32,12.226.147.46/32,199.187.241.131/32
+spec:
+  tls:
+  - hosts:
+    - jenkins.tools.us-east-1.k8s.example.com
+    secretName: jenkins.tls
+  rules:
+  - host: jenkins.tools.us-east-1.k8s.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: 8080
+
+
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins
+spec:
+  tls:
+  - hosts:
+    - jenkins.example.com
+    secretName: jenkins.tls
+  rules:
+  - host: jenkins.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: 8080

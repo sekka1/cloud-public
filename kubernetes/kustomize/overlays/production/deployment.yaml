@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: the-deployment
+spec:
+  replicas: 10
+  template:
+    spec:
+      containers:
+        - name: the-container
+          resources:
+            limits:
+              cpu: 4000m
+              memory: 16000Mi
+            requests:
+              cpu: 100m
+              memory: 50Mi
+      nodeSelector:
+        k8s.info/application: super-container
+      tolerations:
+      - effect: NoSchedule
+        key: application
+        operator: Equal
+        value: super-duper

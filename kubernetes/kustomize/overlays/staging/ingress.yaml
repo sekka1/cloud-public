@@ -1,0 +1,18 @@
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: jenkins
+#   annotations:
+#     # lego ssl cert
+#     kubernetes.io/tls-acme: "false"
+#     kubernetes.io/ingress.class: "foo"
+# spec:
+#   tls:
+#   - hosts:
+#     - jenkins.staging.tools.us-east-1.k8s.example.com
+#   rules:
+#   - host: jenkins.staging.tools.us-east-1.k8s.example.com
+[
+{"op":"replace", "path":"/spec/tls/hosts", "value":["jenkins.staging.tools.us-east-1.k8s.example.com"]},
+{"op":"replace", "path":"/spec/rules/0/host", "value":"jenkins.staging.tools.us-east-1.k8s.example.com"},
+]
