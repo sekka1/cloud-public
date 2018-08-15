@@ -71,7 +71,7 @@ open http://localhost:9000
 
 Once opened you will see the following screen:
 
-![screen shot 2018-08-10 at 12 59 23](https://user-images.githubusercontent.com/1569751/43954557-3882efe0-9c9d-11e8-8bfe-f1d51efeefe4.png)
+![](images/main_screen.png)
 
 Let’s get familiar with Spinnaker concepts and terminology by deploying a simple Nginx web server.
 
@@ -79,31 +79,31 @@ Start by creating an application by clicking on Create Application under the Act
 
 An “application” here is a logical collection of various resources such as Load Balancers, Security Groups, Server Groups, and Clusters.
 
-![screen shot 2018-08-10 at 12 55 35](https://user-images.githubusercontent.com/1569751/43954409-b39dd312-9c9c-11e8-8839-53c88bdb7ec4.png)
+![](images/home_screen.png)
 
 Let’s create a Load Balancer through which the application can be accessed. The Spinnaker Load Balancer would be similar to a Service in Kubernetes.
 
 Click on the Load Balancer on the top menu bar, and then click on the Create Load Balancer button.
 
-![screen shot 2018-08-10 at 13 01 23](https://user-images.githubusercontent.com/1569751/43954632-83020042-9c9d-11e8-8dd8-495a69bd66cd.png)
+![](images/load_balancers.png)
 
 When creating a new Load Balancer, select prod as the namespace, 80 for Target Port, and choose NodePort as Type. Click on Create button when done.
 
-![screen shot 2018-08-10 at 13 12 56](https://user-images.githubusercontent.com/1569751/43955116-205b6d32-9c9f-11e8-82b6-038ce9a371dd.png)
+![](images/clusters.png)
 
 Now lets create a deployment of nginx for our service or load balancer, under Clusters, click on Create Server Group.
                                                                        
-![screen shot 2018-08-10 at 13 08 54](https://user-images.githubusercontent.com/1569751/43954935-90b5f31e-9c9e-11e8-9b85-0a393d3f45da.png)
+![](images/new_load_balancer.png)
 
 When creating a new Server Group, select prod as the namespace. Choose nginx:latest as the container from the dropdown. Choose nginx as the Load Balancer, which we created in the previous step. Type 10 as capacity.
 
-![screen shot 2018-08-10 at 13 15 22](https://user-images.githubusercontent.com/1569751/43955211-75173dd8-9c9f-11e8-9b2d-f0942deb6d68.png)
+![](images/server_group.png)
 
 Wait for the instances under the Server Group to become available. The red colored blocks indicate that the instances are not ready yet.
 
-![screen shot 2018-08-10 at 13 16 10](https://user-images.githubusercontent.com/1569751/43955253-90d9f13c-9c9f-11e8-9ec3-708e79610575.png)
+![](images/create_security_group.png)
 
-![screen shot 2018-08-10 at 13 21 07](https://user-images.githubusercontent.com/1569751/43955396-4317e232-9ca0-11e8-84f0-84168d6b6417.png)
+![](images/nginx_cluster.png)
 
 Switch to the terminal, and run the following command:
 
