@@ -1,0 +1,8 @@
+resources:
+- configmap-es.yaml
+- deployment-gateway.yaml
+- deployment-management-api.yaml
+- deployment-management-ui.yaml
+- statefulset-es.yaml
+- statefulset-mongo.yaml
+- configmap-management-api.yaml

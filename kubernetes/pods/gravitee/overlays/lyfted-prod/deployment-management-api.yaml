@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gravitee-management-api
+  namespace: lyfted-prod
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: gravitee-management-api
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gravitee-management-api
+  namespace: lyfted-prod
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gravitee-management-api
+  namespace: lyfted-prod
+spec:
+  tls:
+  - hosts:
+    - gravitee-management-api.lyfted.demo.devops.bot
+    secretName: gravitee-management-api
+  rules:
+  - host: gravitee-management-api.lyfted.demo.devops.bot
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: gravitee-management-api
+          servicePort: 8083

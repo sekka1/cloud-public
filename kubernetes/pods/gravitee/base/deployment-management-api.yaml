@@ -41,7 +41,13 @@ spec:
           limits:
             memory: "1024Mi"
             cpu: "500m"
-
+        volumeMounts:
+        - mountPath: /opt/graviteeio-management-api/config
+          name: management-api
+      volumes:
+      - name: management-api
+        configMap:
+          name: management-api
 ---
 apiVersion: v1
 kind: Service
