@@ -4,7 +4,6 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: elasticsearch-logging-v1
-  namespace: lyfted-prod
 spec:
   replicas: 1
   template:
@@ -29,12 +28,3 @@ spec:
       resources:
         requests:
           storage: 50Gi
----
-# Headless service
-# https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#pod-identity
-# https://kubernetes.io/docs/concepts/services-networking/service/#headless-services
-apiVersion: v1
-kind: Service
-metadata:
-  name: elasticsearch-logging
-  namespace: lyfted-prod

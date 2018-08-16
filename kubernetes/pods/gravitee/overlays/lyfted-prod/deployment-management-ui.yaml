@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gravitee-management-ui
-  namespace: lyfted-prod
 spec:
   replicas: 1
   template:
@@ -22,18 +21,10 @@ spec:
             cpu: "500m"
 
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: gravitee-management-ui
-  namespace: lyfted-prod
-
----
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gravitee-management-ui
-  namespace: lyfted-prod
 spec:
   tls:
   - hosts:
