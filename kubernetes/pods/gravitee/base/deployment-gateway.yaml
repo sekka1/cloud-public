@@ -25,9 +25,9 @@ spec:
         image: graviteeio/gateway:latest
         env:
           - name: GRAVITEE_MANAGEMENT_MONGODB_URI
-            value: "mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
+            value: "mongodb://mongodb-gravitee:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
           - name: gravitee_ratelimit_mongodb_uri
-            value: "mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
+            value: "mongodb://mongodb-gravitee:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
           - name: gravitee_reporters_elasticsearch_endpoints_0
             value: http://elasticsearch-logging:9200
         ports:

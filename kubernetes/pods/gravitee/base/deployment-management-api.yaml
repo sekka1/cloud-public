@@ -25,7 +25,7 @@ spec:
         image: graviteeio/management-api:latest
         env:
           - name: GRAVITEE_MANAGEMENT_MONGODB_URI
-            value: "mongodb://mongodb:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
+            value: "mongodb://mongodb-gravitee:27017/gravitee?serverSelectionTimeoutMS=5000&connectTimeoutMS=5000&socketTimeoutMS=5000"
           - name: GRAVITEEIO_ELASTIC_HOST
             value: elasticsearch-logging
           - name: GRAVITEEIO_ELASTIC_PORT
