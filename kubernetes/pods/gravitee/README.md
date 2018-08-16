@@ -83,3 +83,15 @@ sample swagger definition:
 https://petstore.swagger.io/#/
 
 https://petstore.swagger.io/v2/swagger.json
+
+
+# Adminstration
+
+## Change the jwt tokenEndpoint
+
+
+## Change the default admin password
+
+```
+htpasswd -bnBC 10 "" password | tr -d ':\n'
+```

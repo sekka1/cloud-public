@@ -34,4 +34,4 @@ spec:
       - path: /
         backend:
           serviceName: gravitee-gateway
-          servicePort: 8083
+          servicePort: 8082
