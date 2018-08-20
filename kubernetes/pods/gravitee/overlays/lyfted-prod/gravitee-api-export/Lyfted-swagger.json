@@ -1,0 +1,6238 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Lyfted",
+    "description": "TODO: Add Description"
+  },
+  "host": "app.lyfted.co",
+  "basePath": "/",
+  "securityDefinitions": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "implicit",
+      "authorizationUrl": "https://app.lyfted.co",
+      "scopes": {},
+      "x-skip-client-authentication": false
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "description": "TODO: Add Description",
+        "summary": "login",
+        "tags": [
+          "Authentications"
+        ],
+        "operationId": "LoginPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LoginRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/login",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"email\":\"admin@yopmail.com\",\"password\":\"Chetu@123\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "login",
+            "x-testDescription": "TODO: Add Description"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/key/generate": {
+      "post": {
+        "description": "TODO: Add Description",
+        "summary": "api key generate",
+        "tags": [
+          "Authentications"
+        ],
+        "operationId": "ApiKeyGeneratePost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ApiKeyGeneraterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/key/generate",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"email\":\"admin@yopmail.com\",\"password\":\"Chetu@123\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "api key generate",
+            "x-testDescription": "TODO: Add Description"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers": {
+      "get": {
+        "description": "Requet for getting all customers",
+        "summary": "Get customers",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomersGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get customers",
+            "x-testDescription": "Requet for getting all customers"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/item/5aa3d8814ef6ec2b24bb868d": {
+      "get": {
+        "description": "Requet for getting single customer by customerID",
+        "summary": "Get customer",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomersItem5aa3d8814ef6ec2b24bb868dGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetSingleCustomer"
+            },
+            "examples": {
+              "application/json": {
+                "response": true,
+                "data": {
+                  "picture": {
+                    "small": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg",
+                    "medium": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg",
+                    "large": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg"
+                  },
+                  "city": "New Updated",
+                  "state": "LOS",
+                  "zip_code": "null",
+                  "phone_number": "92555855676",
+                  "phone_number_home": "",
+                  "phone_carrier": "",
+                  "contact_via_email": true,
+                  "resident": true,
+                  "contact_via_mail": true,
+                  "contact_via_phone": true,
+                  "drivers_license_number": "null",
+                  "drivers_license_expire_at": "\"2020-05-31T18:30:00Z\"",
+                  "passport_number": "null",
+                  "passport_expire_at": "null",
+                  "registration_number": 1,
+                  "registration_date": "null",
+                  "caregiver": "",
+                  "physician": "",
+                  "verification_number": "",
+                  "verification_web": "",
+                  "primary_center_designation_date": "null",
+                  "primary_center": false,
+                  "customer_max_plant_count": "null",
+                  "newsletter_group": "",
+                  "referral": "",
+                  "referral_signature": "sjdfk934509hjh83095",
+                  "application_date": "\"2018-03-14T18:30:00Z\"",
+                  "custom_barcode": "",
+                  "custom_membership_id": "20130307937600155",
+                  "monthly_quota": 0,
+                  "monthly_quota_unit": "",
+                  "tax_exempt": false,
+                  "wholesale": false,
+                  "confirmed": true,
+                  "confirmed_date": "null",
+                  "customer_signature": "null",
+                  "membership_expired": "\"2018-05-31T11:13:38.302Z\"",
+                  "available_credits": 0,
+                  "total_visits": 0,
+                  "created_date": "\"2018-03-19T17:06:14.363Z\"",
+                  "updated_date": "null",
+                  "is_deleted": false,
+                  "deleted_date": "null",
+                  "is_locked": false,
+                  "lock_reason": "null",
+                  "locked_date": "null",
+                  "unlocked_date": "null",
+                  "_id": "5aa3d8814ef6ec2b24bb868d",
+                  "created_at": "\"2018-03-10T13:00:46.967Z\"",
+                  "name": "Larry Davis",
+                  "address": "2890 Big Indian Kenner, LA 70062",
+                  "gender": "genddre",
+                  "email": "ldavis@yopmail.com",
+                  "dob": "19-06-12T00:00:00.000Z",
+                  "drivers_expire_at": "null",
+                  "card_expired_at": "\"2018-05-31T18:30:00Z\"",
+                  "membership_type": 1,
+                  "license_type": 1,
+                  "dispensary_id": "5b27e67bebfc350005fe2f40",
+                  "created_by": "5aa92816d493de2fb4c614f5",
+                  "patient_signature": "null",
+                  "__v": 0
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/item/5aa3d8814ef6ec2b24bb868d",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "RAW",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Connection": "keep-alive",
+                "Content-Length": "1903",
+                "Content-Type": "application/json; charset=utf-8",
+                "Date": "Mon, 14 May 2018 13:02:50 GMT",
+                "ETag": "W/\"76f-y679mwJO5bngJQJZDj78P5ZQ8hA\"",
+                "X-Powered-By": "Express"
+              },
+              "body": "{\"response\":true,\"data\":{\"picture\":{\"small\":\"/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg\",\"medium\":\"/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg\",\"large\":\"/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg\"},\"city\":\"New Updated\",\"state\":\"LOS\",\"zip_code\":\"null\",\"phone_number\":\"92555855676\",\"phone_number_home\":\"\",\"phone_carrier\":\"\",\"contact_via_email\":true,\"resident\":true,\"contact_via_mail\":true,\"contact_via_phone\":true,\"drivers_license_number\":\"null\",\"drivers_license_expire_at\":\"\\\"2020-05-31T18:30:00Z\\\"\",\"passport_number\":\"null\",\"passport_expire_at\":\"null\",\"registration_number\":1,\"registration_date\":\"null\",\"caregiver\":\"\",\"physician\":\"\",\"verification_number\":\"\",\"verification_web\":\"\",\"primary_center_designation_date\":\"null\",\"primary_center\":false,\"customer_max_plant_count\":\"null\",\"newsletter_group\":\"\",\"referral\":\"\",\"referral_signature\":\"sjdfk934509hjh83095\",\"application_date\":\"\\\"2018-03-14T18:30:00Z\\\"\",\"custom_barcode\":\"\",\"custom_membership_id\":\"20130307937600155\",\"monthly_quota\":0,\"monthly_quota_unit\":\"\",\"tax_exempt\":false,\"wholesale\":false,\"confirmed\":true,\"confirmed_date\":\"null\",\"customer_signature\":\"null\",\"membership_expired\":\"\\\"2018-05-31T11:13:38.302Z\\\"\",\"available_credits\":0,\"total_visits\":0,\"created_date\":\"\\\"2018-03-19T17:06:14.363Z\\\"\",\"updated_date\":\"null\",\"is_deleted\":false,\"deleted_date\":\"null\",\"is_locked\":false,\"lock_reason\":\"null\",\"locked_date\":\"null\",\"unlocked_date\":\"null\",\"_id\":\"5aa3d8814ef6ec2b24bb868d\",\"created_at\":\"\\\"2018-03-10T13:00:46.967Z\\\"\",\"name\":\"Larry Davis\",\"address\":\"2890 Big Indian Kenner, LA 70062\",\"gender\":\"genddre\",\"email\":\"ldavis@yopmail.com\",\"dob\":\"19-06-12T00:00:00.000Z\",\"drivers_expire_at\":\"null\",\"card_expired_at\":\"\\\"2018-05-31T18:30:00Z\\\"\",\"membership_type\":1,\"license_type\":1,\"dispensary_id\":\"5b27e67bebfc350005fe2f40\",\"created_by\":\"5aa92816d493de2fb4c614f5\",\"patient_signature\":\"null\",\"__v\":0}}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get customer",
+            "x-testDescription": "Requet for getting single customer by customerID"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/new": {
+      "post": {
+        "description": "Requset for adding new patient",
+        "summary": "Add patient",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomersNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddPatientrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddNewPatient"
+            },
+            "examples": {
+              "application/json": {
+                "response": true,
+                "message": "Patient has been added",
+                "data": {
+                  "pre_data": "null",
+                  "post_data": {
+                    "name": "Tarun Sharma",
+                    "email": "truns@yopmail.com",
+                    "phone_number": "12345679",
+                    "registration_number": "000111444",
+                    "registration_date": "\"2018-05-20T00:00:00Z\"",
+                    "card_expired_at": "\"2020-10-12T00:00:00Z\"",
+                    "membership_type": 1,
+                    "license_type": 1,
+                    "application_date": "\"2018-05-20T00:00:00Z\"",
+                    "address": "Noida, UP",
+                    "dob": "\"1990-10-20T00:00:00Z\"",
+                    "gender": "M",
+                    "created_by": "5aa92816d493de2fb4c614f5",
+                    "dispensary_id": "5b27e67bebfc350005fe2f40"
+                  },
+                  "created_date": "\"2018-05-22T12:14:23.485Z\"",
+                  "_id": "5b0409e91cb98b2fe0264abd",
+                  "operation": "created",
+                  "module": "customers",
+                  "created_by": "5aa92816d493de2fb4c614f5",
+                  "__v": 0
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/new",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"name\":\"Tarun Sharma4\",\"email\":\"truns4@yopmail.com\",\"phone_number\":\"1234567981722\",\"registration_number\":\"00011144744\",\"registration_date\":\"2018-05-20\",\"card_expired_at\":\"2020-10-12\",\"membership_type\":1,\"license_type\":1,\"application_date\":\"2018-05-20\",\"address\":\"Noida, UP\",\"dob\":\"1990-10-20\",\"gender\":\"M\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "RAW",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {
+                "Access-Control-Allow-Origin": "*",
+                "Connection": "keep-alive",
+                "Content-Length": "695",
+                "Content-Type": "application/json; charset=utf-8",
+                "Date": "Tue, 22 May 2018 12:15:37 GMT",
+                "ETag": "W/\"2b7-0pjgptwg9Ab4iNnU2iq3AZkCxI4\"",
+                "X-Powered-By": "Express"
+              },
+              "body": "{\"response\":true,\"message\":\"Patient has been added\",\"data\":{\"pre_data\":\"null\",\"post_data\":{\"name\":\"Tarun Sharma\",\"email\":\"truns@yopmail.com\",\"phone_number\":\"12345679\",\"registration_number\":\"000111444\",\"registration_date\":\"\\\"2018-05-20T00:00:00Z\\\"\",\"card_expired_at\":\"\\\"2020-10-12T00:00:00Z\\\"\",\"membership_type\":1,\"license_type\":1,\"application_date\":\"\\\"2018-05-20T00:00:00Z\\\"\",\"address\":\"Noida, UP\",\"dob\":\"\\\"1990-10-20T00:00:00Z\\\"\",\"gender\":\"M\",\"created_by\":\"5aa92816d493de2fb4c614f5\",\"dispensary_id\":\"5b27e67bebfc350005fe2f40\"},\"created_date\":\"\\\"2018-05-22T12:14:23.485Z\\\"\",\"_id\":\"5b0409e91cb98b2fe0264abd\",\"operation\":\"created\",\"module\":\"customers\",\"created_by\":\"5aa92816d493de2fb4c614f5\",\"__v\":0}}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add patient",
+            "x-testDescription": "Requset for adding new patient"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b0838e565bf28248838e70a/edit": {
+      "put": {
+        "description": "Requset for updating existing patient",
+        "summary": "Edit patient",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomers5b0838e565bf28248838e70aEditPut",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditPatientrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/customers/5b0838e565bf28248838e70a/edit",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"gender\":\"M\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit patient",
+            "x-testDescription": "Requset for updating existing patient"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/delete": {
+      "delete": {
+        "description": "Requset for deleting existing patient",
+        "summary": "Delete patient",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeDeleteDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/delete",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete patient",
+            "x-testDescription": "Requset for deleting existing patient"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5aa3d96b4ef6ec2b24bb868e/lock": {
+      "post": {
+        "description": "Requset for lock patient with lock reason",
+        "summary": "Lock patient",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomers5aa3d96b4ef6ec2b24bb868eLockPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/LockPatientrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/5aa3d96b4ef6ec2b24bb868e/lock",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"lock_reason\":\"test lock reason\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Lock patient",
+            "x-testDescription": "Requset for lock patient with lock reason"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5aa3d96b4ef6ec2b24bb868e/unlock": {
+      "post": {
+        "description": "Requset for unlock patient with login credentials",
+        "summary": "Unlock patient",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomers5aa3d96b4ef6ec2b24bb868eUnlockPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UnlockPatientrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/5aa3d96b4ef6ec2b24bb868e/unlock",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"email\":\"sonu@yopmail.com\",\"password\":\"123456\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Unlock patient",
+            "x-testDescription": "Requset for unlock patient with login credentials"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5aa3d96b4ef6ec2b24bb868e/card": {
+      "get": {
+        "description": "Requset for fetching patient card details, given patient",
+        "summary": "Get patient card",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiCustomers5aa3d96b4ef6ec2b24bb868eCardGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/5aa3d96b4ef6ec2b24bb868e/card",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get patient card",
+            "x-testDescription": "Requset for fetching patient card details, given patient"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/notes/new": {
+      "post": {
+        "description": "Requset for adding new patient note",
+        "summary": "Add note",
+        "tags": [
+          "notes"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeNotesNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddNoterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/notes/new",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"note\":\"test note4\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add note",
+            "x-testDescription": "Requset for adding new patient note"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/notes": {
+      "get": {
+        "description": "Requset for getting all patient note",
+        "summary": "Get notes",
+        "tags": [
+          "notes"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeNotesGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/notes",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get notes",
+            "x-testDescription": "Requset for getting all patient note"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/notes/5b643ef0ebfc350005fe2f4e": {
+      "get": {
+        "description": "Requset for getting single patient note by given id",
+        "summary": "Get note",
+        "tags": [
+          "notes"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeNotes5b643ef0ebfc350005fe2f4eGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/notes/5b643ef0ebfc350005fe2f4e",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get note",
+            "x-testDescription": "Requset for getting single patient note by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/notes/edit/5b643ef0ebfc350005fe2f4e": {
+      "put": {
+        "description": "Requset for updating single patient note by given id",
+        "summary": "Edit note",
+        "tags": [
+          "notes"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeNotesEdit5b643ef0ebfc350005fe2f4ePut",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditNoterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/notes/edit/5b643ef0ebfc350005fe2f4e",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"note\":\"test note4 updated\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit note",
+            "x-testDescription": "Requset for updating single patient note by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/notes/delete/5b643ef0ebfc350005fe2f4e": {
+      "delete": {
+        "description": "Requset for deleteing patient note by given id",
+        "summary": "Delete note",
+        "tags": [
+          "notes"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeNotesDelete5b643ef0ebfc350005fe2f4eDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/notes/delete/5b643ef0ebfc350005fe2f4e",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete note",
+            "x-testDescription": "Requset for deleteing patient note by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/favorites/new": {
+      "post": {
+        "description": "Requset for adding patient favorite",
+        "summary": "Add favorite",
+        "tags": [
+          "favorites"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeFavoritesNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddFavoriterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/favorites/new",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"favorite\":\"test favorite2\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add favorite",
+            "x-testDescription": "Requset for adding patient favorite"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/favorites": {
+      "get": {
+        "description": "Requset for fetching all patient favorites",
+        "summary": "Get favorites",
+        "tags": [
+          "favorites"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeFavoritesGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/favorites",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get favorites",
+            "x-testDescription": "Requset for fetching all patient favorites"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/favorites/5b643fd2ebfc350005fe2f51": {
+      "get": {
+        "description": "Requset for fetching single patient favorite by given id",
+        "summary": "Get favorite",
+        "tags": [
+          "favorites"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeFavorites5b643fd2ebfc350005fe2f51Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/favorites/5b643fd2ebfc350005fe2f51",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get favorite",
+            "x-testDescription": "Requset for fetching single patient favorite by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/favorites/edit/5b643fd2ebfc350005fe2f51": {
+      "put": {
+        "description": "Requset for updating existing patient favorite by given id",
+        "summary": "Edit favorite",
+        "tags": [
+          "favorites"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeFavoritesEdit5b643fd2ebfc350005fe2f51Put",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditFavoriterequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/favorites/edit/5b643fd2ebfc350005fe2f51",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"favorite\":\"test favorite2 updated\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit favorite",
+            "x-testDescription": "Requset for updating existing patient favorite by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/5b04255b32770116d0e1ddee/favorites/delete/5b643fd2ebfc350005fe2f51": {
+      "delete": {
+        "description": "Requset for deleting existing patient favorite by given id",
+        "summary": "Delete favorite",
+        "tags": [
+          "favorites"
+        ],
+        "operationId": "ApiCustomers5b04255b32770116d0e1ddeeFavoritesDelete5b643fd2ebfc350005fe2f51Delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/customers/5b04255b32770116d0e1ddee/favorites/delete/5b643fd2ebfc350005fe2f51",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete favorite",
+            "x-testDescription": "Requset for deleting existing patient favorite by given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/picture/5b27e7daebfc350005fe2f42": {
+      "post": {
+        "description": "Requset for uploading patient picture ",
+        "summary": "Add picture",
+        "tags": [
+          "pictures"
+        ],
+        "operationId": "ApiCustomersPicture5b27e7daebfc350005fe2f42Post",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/customers/picture/5b27e7daebfc350005fe2f42",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "profile="
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add picture",
+            "x-testDescription": "Requset for uploading patient picture "
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/license/1": {
+      "get": {
+        "description": "Request for getting patients by gieven license type( type type must be an id)",
+        "summary": "By license type",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterLicense1Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/GetPatientByLicenseType"
+            },
+            "examples": {}
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/membership/1": {
+      "get": {
+        "description": "Request for getting patients by gieven membership type( type type must be an id)",
+        "summary": "By membership type",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterMembership1Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/membership/1",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "By membership type",
+            "x-testDescription": "Request for getting patients by gieven membership type( type type must be an id)"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/deleted": {
+      "get": {
+        "description": "Request for getting patients that have been deleted.",
+        "summary": "Deleted patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterDeletedGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/deleted",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Deleted patients",
+            "x-testDescription": "Request for getting patients that have been deleted."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/locked": {
+      "get": {
+        "description": "Request for getting patients that have been locked.",
+        "summary": "Locked patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterLockedGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/locked",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Locked patients",
+            "x-testDescription": "Request for getting patients that have been locked."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/waiting": {
+      "get": {
+        "description": "Request for getting patients that have been waiting for visit.",
+        "summary": "Waiting patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterWaitingGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/waiting",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Waiting patients",
+            "x-testDescription": "Request for getting patients that have been waiting for visit."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/hold-unpaid": {
+      "get": {
+        "description": "Request for getting patients that have been hold and unpaid visit.",
+        "summary": "Hold and unpaid patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterHoldUnpaidGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/hold-unpaid",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Hold and unpaid patients",
+            "x-testDescription": "Request for getting patients that have been hold and unpaid visit."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/without/quotas": {
+      "get": {
+        "description": "Request for getting patients that have been without quota.",
+        "summary": "without quota patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterWithoutQuotasGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/without/quotas",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "without quota patients",
+            "x-testDescription": "Request for getting patients that have been without quota."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/cards/expired": {
+      "get": {
+        "description": "Request for getting patients that cards have been expired.",
+        "summary": "Expired card patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterCardsExpiredGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/cards/expired",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Expired card patients",
+            "x-testDescription": "Request for getting patients that cards have been expired."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/cards/expiring": {
+      "get": {
+        "description": "Request for getting patients that cards have been expired soon.",
+        "summary": "Expiring card patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterCardsExpiringGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/cards/expiring",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Expiring card patients",
+            "x-testDescription": "Request for getting patients that cards have been expired soon."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/filter/birthdays/upcoming": {
+      "get": {
+        "description": "Request for getting patients that birhdays have been comming soon.",
+        "summary": "Upcoming birthday patients",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersFilterBirthdaysUpcomingGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/filter/birthdays/upcoming",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Upcoming birthday patients",
+            "x-testDescription": "Request for getting patients that birhdays have been comming soon."
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/sort/j": {
+      "get": {
+        "description": "Requset for getting sorted patient, given by alphabets",
+        "summary": "Sort patient",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersSortJGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/sort/j",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Sort patient",
+            "x-testDescription": "Requset for getting sorted patient, given by alphabets"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/search/john": {
+      "get": {
+        "description": "Requset for getting searched patient, given by name",
+        "summary": "Serach patient",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersSearchJohnGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/search/john",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Serach patient",
+            "x-testDescription": "Requset for getting searched patient, given by name"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/customers/search/email/jdoe@yopmail.com": {
+      "get": {
+        "description": "Requset for getting searched patient, given by email",
+        "summary": "Serach patient by email",
+        "tags": [
+          "filters"
+        ],
+        "operationId": "ApiCustomersSearchEmailJdoeYopmailComGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/customers/search/email/jdoe@yopmail.com",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Serach patient by email",
+            "x-testDescription": "Requset for getting searched patient, given by email"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/new": {
+      "post": {
+        "description": "Request for adding new employee",
+        "summary": "Add employee",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployeesNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddEmployeerequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/employees/new",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"name\":{\"firstname\":\"John\",\"lastname\":\"Rock\"},\"password\":\"123456\",\"quick_password\":\"test\",\"email\":\"jrock@yopmail.com\",\"access\":1,\"license_no\":\"1112233\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add employee",
+            "x-testDescription": "Request for adding new employee"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees": {
+      "get": {
+        "description": "Request for fetching all employees",
+        "summary": "Get employees",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployeesGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/employees",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get employees",
+            "x-testDescription": "Request for fetching all employees"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/5b643e20ebfc350005fe2f4b": {
+      "get": {
+        "description": "Request for fetching single employee, given id",
+        "summary": "Get employee",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployees5b643e20ebfc350005fe2f4bGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/employees/5b643e20ebfc350005fe2f4b",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get employee",
+            "x-testDescription": "Request for fetching single employee, given id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/assign/store/5b643e20ebfc350005fe2f4b": {
+      "post": {
+        "description": "Requset for assigning store to given employee",
+        "summary": "Assign store",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployeesAssignStore5b643e20ebfc350005fe2f4bPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AssignStorerequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/employees/assign/store/5b643e20ebfc350005fe2f4b",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"dispensary_id\":\"5b27e67bebfc350005fe2f40\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Assign store",
+            "x-testDescription": "Requset for assigning store to given employee"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/edit/5b643e20ebfc350005fe2f4b": {
+      "put": {
+        "description": "Request for updating  existing employee to given employee id",
+        "summary": "Edit employee",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployeesEdit5b643e20ebfc350005fe2f4bPut",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditEmployeerequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/employees/edit/5b643e20ebfc350005fe2f4b",
+              "headers": {
+                "Content-Type": "application/json",
+                "StoreID": "5b27e67bebfc350005fe2f40"
+              },
+              "body": "{\"name\":{\"firstname\":\"test updated\",\"lastname\":\"employee\"}}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit employee",
+            "x-testDescription": "Request for updating  existing employee to given employee id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/delete/5b643e20ebfc350005fe2f4b": {
+      "delete": {
+        "description": "Request for deleteing  existing employee to given employee id",
+        "summary": "Delete employee",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiEmployeesDelete5b643e20ebfc350005fe2f4bDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/employees/delete/5b643e20ebfc350005fe2f4b",
+              "headers": {
+                "Content-Type": "application/json",
+                "StoreID": "5b27e67bebfc350005fe2f40"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete employee",
+            "x-testDescription": "Request for deleteing  existing employee to given employee id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/employees/picture/5aafb83db8c9862878784b01": {
+      "post": {
+        "description": "Requset for adding employee picture",
+        "summary": "Add employee picture",
+        "tags": [
+          "picture"
+        ],
+        "operationId": "ApiEmployeesPicture5aafb83db8c9862878784b01Post",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/employees/picture/5aafb83db8c9862878784b01",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "profile="
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add employee picture",
+            "x-testDescription": "Requset for adding employee picture"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus/new": {
+      "post": {
+        "description": "Requset for adding new menu",
+        "summary": "Add menu",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiMenusNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddMenurequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/menus/new",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"name\":\"501st OG\",\"category\":1,\"product_type\":2,\"activation_time\":0,\"description\":\"Our ACO capsules contain whole plant cannabis oil. The Master Growers Ethanol extraction process preserves the natural cannabinoids, terpenes and alkaloids of the cannabis plant. We combine our ACO with organic cacao butter to enhance absorp- tion and increase utilization. INGREDIENTS: 25 mg ACO, Organic Cacao Butter, Organic Gelatin Capsule\",\"price\":{\"half_gram\":23.0,\"one_gram\":23.0,\"two_gram\":23.0,\"one_eight_oz\":23.0,\"one_forth_oz\":23.0,\"half_oz\":23.0,\"one_oz\":23.0},\"vendor_id\":\"5abb7da070c6b728e08e56c8\",\"batch_number\":\"000004\",\"stock_units\":\"0.0\",\"strain_profile\":{\"indica\":0.0,\"sativa\":0.0},\"lab_test_result\":{\"thc_percent\":0.0,\"thca_percent\":0.0,\"cbd_percent\":0.0,\"cbda_percent\":0.0,\"cbn_percent\":0.0}}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add menu",
+            "x-testDescription": "Requset for adding new menu"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus": {
+      "get": {
+        "description": "Requset for fetching all menus",
+        "summary": "Get menus",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiMenusGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/menus",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get menus",
+            "x-testDescription": "Requset for fetching all menus"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus/5b64453d50d559000575bdb7": {
+      "get": {
+        "description": "Requset for fetching single menu, given by id",
+        "summary": "Get menu",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiMenus5b64453d50d559000575bdb7Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/menus/5b64453d50d559000575bdb7",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get menu",
+            "x-testDescription": "Requset for fetching single menu, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus/edit/5b64453d50d559000575bdb7": {
+      "put": {
+        "description": "Requset for updating existing menu, given by id",
+        "summary": "Edit menu",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiMenusEdit5b64453d50d559000575bdb7Put",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditMenurequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/menus/edit/5b64453d50d559000575bdb7",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"description\":\"501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping.\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit menu",
+            "x-testDescription": "Requset for updating existing menu, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus/delete/5b64453d50d559000575bdb7": {
+      "delete": {
+        "description": "Requset for deleteing existing menu, given by id",
+        "summary": "Delete menu",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiMenusDelete5b64453d50d559000575bdb7Delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteMenurequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/menus/delete/5b64453d50d559000575bdb7",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"description\":\"501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping.\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete menu",
+            "x-testDescription": "Requset for deleteing existing menu, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/menus/picture/5b64453d50d559000575bdb7": {
+      "post": {
+        "description": "Requset for adding menu picture",
+        "summary": "Add menu picture",
+        "tags": [
+          "picture"
+        ],
+        "operationId": "ApiMenusPicture5b64453d50d559000575bdb7Post",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/x-www-form-urlencoded"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "profile",
+            "in": "formData",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/menus/picture/5b64453d50d559000575bdb7",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "profile="
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add menu picture",
+            "x-testDescription": "Requset for adding menu picture"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/dispensaries": {
+      "get": {
+        "description": "Requset for fetching all dispensaries",
+        "summary": "Get dispensaries",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiDispensariesGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/dispensaries",
+              "headers": {
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get dispensaries",
+            "x-testDescription": "Requset for fetching all dispensaries"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/dispensaries/5b27e67bebfc350005fe2f40": {
+      "get": {
+        "description": "Requset for getting single dispensary given by id",
+        "summary": "Get dispensary",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiDispensaries5b27e67bebfc350005fe2f40Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/dispensaries/5b27e67bebfc350005fe2f40",
+              "headers": {
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get dispensary",
+            "x-testDescription": "Requset for getting single dispensary given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/dispensaries/new": {
+      "post": {
+        "description": "Requset for adding new dispensary",
+        "summary": "Add dispensary",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiDispensariesNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddDispensaryrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/dispensaries/new",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"name\":\"831 Organiks- NEW STORE\",\"address\":\"Oakland\",\"country\":\"America\",\"region\":\"oakland\",\"time_zone\":\"America/Los_Angeles\",\"license_type\":\"1\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add dispensary",
+            "x-testDescription": "Requset for adding new dispensary"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/dispensaries/edit/5b27e67bebfc350005fe2f40": {
+      "put": {
+        "description": "Requset for updating existing dispensary, given by id",
+        "summary": "Edit dispensary",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiDispensariesEdit5b27e67bebfc350005fe2f40Put",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditDispensaryrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/dispensaries/edit/5b27e67bebfc350005fe2f40",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"address\":\"Address test upadted\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit dispensary",
+            "x-testDescription": "Requset for updating existing dispensary, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/dispensaries/delete/5b27e67bebfc350005fe2f40": {
+      "delete": {
+        "description": "Requset for deleting existing dispensary, given by id",
+        "summary": "Delete dispensary",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiDispensariesDelete5b27e67bebfc350005fe2f40Delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteDispensaryrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/dispensaries/delete/5b27e67bebfc350005fe2f40",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"address\":\"Address test upadted\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete dispensary",
+            "x-testDescription": "Requset for deleting existing dispensary, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/vendors": {
+      "get": {
+        "description": "Requset for fetching all vendors",
+        "summary": "Get vendors",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiVendorsGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/vendors",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get vendors",
+            "x-testDescription": "Requset for fetching all vendors"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/vendors/5b64470b50d559000575bdbd": {
+      "get": {
+        "description": "Requset for fetching single vendors, given by id",
+        "summary": "Get vendor",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiVendors5b64470b50d559000575bdbdGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/api/vendors/5b64470b50d559000575bdbd",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Get vendor",
+            "x-testDescription": "Requset for fetching single vendors, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/vendors/new": {
+      "post": {
+        "description": "Requset for adding new vendor",
+        "summary": "Add vendor",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiVendorsNewPost",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AddVendorrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/api/vendors/new",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"name\":\"Organik farms -3 \",\"address\":\"Organik farms address\",\"license_type\":\"1\",\"email\":\"farm3@yopmail.com\",\"phone_number\":\"12345698727\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Add vendor",
+            "x-testDescription": "Requset for adding new vendor"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/vendors/edit/5b64470b50d559000575bdbd": {
+      "put": {
+        "description": "Requset for updating existing vendor, given by id",
+        "summary": "Edit vendor",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiVendorsEdit5b64470b50d559000575bdbdPut",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/EditVendorrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "PUT",
+              "uri": "/api/vendors/edit/5b64470b50d559000575bdbd",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              },
+              "body": "{\"email\":\"ofarm-udate@yopmail.com\"}"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Edit vendor",
+            "x-testDescription": "Requset for updating existing vendor, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/api/vendors/delete/5b3785d9438fc32f882f0fcf": {
+      "delete": {
+        "description": "Requset for deleteing existing vendor, given by id",
+        "summary": "Delete vendor",
+        "tags": [
+          "info"
+        ],
+        "operationId": "ApiVendorsDelete5b3785d9438fc32f882f0fcfDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "StoreID",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "auth": []
+          }
+        ],
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/api/vendors/delete/5b3785d9438fc32f882f0fcf",
+              "headers": {
+                "StoreID": "5b27e67bebfc350005fe2f40",
+                "Content-Type": "application/json"
+              }
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "NONE",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "headers": {}
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Delete vendor",
+            "x-testDescription": "Requset for deleteing existing vendor, given by id"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    }
+  },
+  "definitions": {
+    "LoginRequest": {
+      "title": "loginRequest",
+      "example": {
+        "email": "admin@yopmail.com",
+        "password": "Chetu@123"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "",
+          "example": "admin@yopmail.com",
+          "type": "string"
+        },
+        "password": {
+          "description": "",
+          "example": "Chetu@123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "ApiKeyGeneraterequest": {
+      "title": "api key generateRequest",
+      "example": {
+        "email": "admin@yopmail.com",
+        "password": "Chetu@123"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "",
+          "example": "admin@yopmail.com",
+          "type": "string"
+        },
+        "password": {
+          "description": "",
+          "example": "Chetu@123",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "GetSingleCustomer": {
+      "title": "Get single customer",
+      "example": {
+        "response": true,
+        "data": {
+          "picture": {
+            "small": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg",
+            "medium": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg",
+            "large": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg"
+          },
+          "city": "New Updated",
+          "state": "LOS",
+          "zip_code": "null",
+          "phone_number": "92555855676",
+          "phone_number_home": "",
+          "phone_carrier": "",
+          "contact_via_email": true,
+          "resident": true,
+          "contact_via_mail": true,
+          "contact_via_phone": true,
+          "drivers_license_number": "null",
+          "drivers_license_expire_at": "\"2020-05-31T18:30:00Z\"",
+          "passport_number": "null",
+          "passport_expire_at": "null",
+          "registration_number": 1,
+          "registration_date": "null",
+          "caregiver": "",
+          "physician": "",
+          "verification_number": "",
+          "verification_web": "",
+          "primary_center_designation_date": "null",
+          "primary_center": false,
+          "customer_max_plant_count": "null",
+          "newsletter_group": "",
+          "referral": "",
+          "referral_signature": "sjdfk934509hjh83095",
+          "application_date": "\"2018-03-14T18:30:00Z\"",
+          "custom_barcode": "",
+          "custom_membership_id": "20130307937600155",
+          "monthly_quota": 0,
+          "monthly_quota_unit": "",
+          "tax_exempt": false,
+          "wholesale": false,
+          "confirmed": true,
+          "confirmed_date": "null",
+          "customer_signature": "null",
+          "membership_expired": "\"2018-05-31T11:13:38.302Z\"",
+          "available_credits": 0,
+          "total_visits": 0,
+          "created_date": "\"2018-03-19T17:06:14.363Z\"",
+          "updated_date": "null",
+          "is_deleted": false,
+          "deleted_date": "null",
+          "is_locked": false,
+          "lock_reason": "null",
+          "locked_date": "null",
+          "unlocked_date": "null",
+          "_id": "5aa3d8814ef6ec2b24bb868d",
+          "created_at": "\"2018-03-10T13:00:46.967Z\"",
+          "name": "Larry Davis",
+          "address": "2890 Big Indian Kenner, LA 70062",
+          "gender": "genddre",
+          "email": "ldavis@yopmail.com",
+          "dob": "19-06-12T00:00:00.000Z",
+          "drivers_expire_at": "null",
+          "card_expired_at": "\"2018-05-31T18:30:00Z\"",
+          "membership_type": 1,
+          "license_type": 1,
+          "dispensary_id": "5b27e67bebfc350005fe2f40",
+          "created_by": "5aa92816d493de2fb4c614f5",
+          "patient_signature": "null",
+          "__v": 0
+        }
+      },
+      "type": "object",
+      "properties": {
+        "response": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "required": [
+        "response",
+        "data"
+      ]
+    },
+    "Data": {
+      "title": "Data",
+      "example": {
+        "picture": {
+          "small": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg",
+          "medium": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg",
+          "large": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg"
+        },
+        "city": "New Updated",
+        "state": "LOS",
+        "zip_code": null,
+        "phone_number": "92555855676",
+        "phone_number_home": "",
+        "phone_carrier": "",
+        "contact_via_email": true,
+        "resident": true,
+        "contact_via_mail": true,
+        "contact_via_phone": true,
+        "drivers_license_number": null,
+        "drivers_license_expire_at": "2020-05-31T18:30:00Z",
+        "passport_number": null,
+        "passport_expire_at": null,
+        "registration_number": 1,
+        "registration_date": null,
+        "caregiver": "",
+        "physician": "",
+        "verification_number": "",
+        "verification_web": "",
+        "primary_center_designation_date": null,
+        "primary_center": false,
+        "customer_max_plant_count": null,
+        "newsletter_group": "",
+        "referral": "",
+        "referral_signature": "sjdfk934509hjh83095",
+        "application_date": "2018-03-14T18:30:00Z",
+        "custom_barcode": "",
+        "custom_membership_id": "20130307937600155",
+        "monthly_quota": 0,
+        "monthly_quota_unit": "",
+        "tax_exempt": false,
+        "wholesale": false,
+        "confirmed": true,
+        "confirmed_date": null,
+        "customer_signature": null,
+        "membership_expired": "2018-05-31T11:13:38.302Z",
+        "available_credits": 0,
+        "total_visits": 0,
+        "created_date": "2018-03-19T17:06:14.363Z",
+        "updated_date": null,
+        "is_deleted": false,
+        "deleted_date": null,
+        "is_locked": false,
+        "lock_reason": null,
+        "locked_date": null,
+        "unlocked_date": null,
+        "_id": "5aa3d8814ef6ec2b24bb868d",
+        "created_at": "2018-03-10T13:00:46.967Z",
+        "name": "Larry Davis",
+        "address": "2890 Big Indian Kenner, LA 70062",
+        "gender": "genddre",
+        "email": "ldavis@yopmail.com",
+        "dob": "19-06-12T00:00:00.000Z",
+        "drivers_expire_at": null,
+        "card_expired_at": "2018-05-31T18:30:00Z",
+        "membership_type": 1,
+        "license_type": 1,
+        "dispensary_id": "5b27e67bebfc350005fe2f40",
+        "created_by": "5aa92816d493de2fb4c614f5",
+        "patient_signature": null,
+        "__v": 0
+      },
+      "type": "object",
+      "properties": {
+        "picture": {
+          "$ref": "#/definitions/Picture"
+        },
+        "city": {
+          "description": "",
+          "example": "New Updated",
+          "type": "string"
+        },
+        "state": {
+          "description": "",
+          "example": "LOS",
+          "type": "string"
+        },
+        "zip_code": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "example": "92555855676",
+          "type": "string"
+        },
+        "phone_number_home": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_carrier": {
+          "description": "",
+          "type": "string"
+        },
+        "contact_via_email": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "resident": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "contact_via_mail": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "contact_via_phone": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "drivers_license_number": {
+          "description": "",
+          "type": "string"
+        },
+        "drivers_license_expire_at": {
+          "description": "",
+          "example": "5/31/2020 6:30:00 PM",
+          "type": "string"
+        },
+        "passport_number": {
+          "description": "",
+          "type": "string"
+        },
+        "passport_expire_at": {
+          "description": "",
+          "type": "string"
+        },
+        "registration_number": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "registration_date": {
+          "description": "",
+          "type": "string"
+        },
+        "caregiver": {
+          "description": "",
+          "type": "string"
+        },
+        "physician": {
+          "description": "",
+          "type": "string"
+        },
+        "verification_number": {
+          "description": "",
+          "type": "string"
+        },
+        "verification_web": {
+          "description": "",
+          "type": "string"
+        },
+        "primary_center_designation_date": {
+          "description": "",
+          "type": "string"
+        },
+        "primary_center": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "customer_max_plant_count": {
+          "description": "",
+          "type": "string"
+        },
+        "newsletter_group": {
+          "description": "",
+          "type": "string"
+        },
+        "referral": {
+          "description": "",
+          "type": "string"
+        },
+        "referral_signature": {
+          "description": "",
+          "example": "sjdfk934509hjh83095",
+          "type": "string"
+        },
+        "application_date": {
+          "description": "",
+          "example": "3/14/2018 6:30:00 PM",
+          "type": "string"
+        },
+        "custom_barcode": {
+          "description": "",
+          "type": "string"
+        },
+        "custom_membership_id": {
+          "description": "",
+          "example": "20130307937600155",
+          "type": "string"
+        },
+        "monthly_quota": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "monthly_quota_unit": {
+          "description": "",
+          "type": "string"
+        },
+        "tax_exempt": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "wholesale": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "confirmed": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "confirmed_date": {
+          "description": "",
+          "type": "string"
+        },
+        "customer_signature": {
+          "description": "",
+          "type": "string"
+        },
+        "membership_expired": {
+          "description": "",
+          "example": "5/31/2018 11:13:38 AM",
+          "type": "string"
+        },
+        "available_credits": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "total_visits": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "created_date": {
+          "description": "",
+          "example": "3/19/2018 5:06:14 PM",
+          "type": "string"
+        },
+        "updated_date": {
+          "description": "",
+          "type": "string"
+        },
+        "is_deleted": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "deleted_date": {
+          "description": "",
+          "type": "string"
+        },
+        "is_locked": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "lock_reason": {
+          "description": "",
+          "type": "string"
+        },
+        "locked_date": {
+          "description": "",
+          "type": "string"
+        },
+        "unlocked_date": {
+          "description": "",
+          "type": "string"
+        },
+        "_id": {
+          "description": "",
+          "example": "5aa3d8814ef6ec2b24bb868d",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "",
+          "example": "3/10/2018 1:00:46 PM",
+          "type": "string"
+        },
+        "name": {
+          "description": "",
+          "example": "Larry Davis",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "2890 Big Indian Kenner, LA 70062",
+          "type": "string"
+        },
+        "gender": {
+          "description": "",
+          "example": "genddre",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "ldavis@yopmail.com",
+          "type": "string"
+        },
+        "dob": {
+          "description": "",
+          "example": "19-06-12T00:00:00.000Z",
+          "type": "string"
+        },
+        "drivers_expire_at": {
+          "description": "",
+          "type": "string"
+        },
+        "card_expired_at": {
+          "description": "",
+          "example": "5/31/2018 6:30:00 PM",
+          "type": "string"
+        },
+        "membership_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "license_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "dispensary_id": {
+          "description": "",
+          "example": "5b27e67bebfc350005fe2f40",
+          "type": "string"
+        },
+        "created_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "patient_signature": {
+          "description": "",
+          "type": "string"
+        },
+        "__v": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "picture",
+        "city",
+        "state",
+        "zip_code",
+        "phone_number",
+        "phone_number_home",
+        "phone_carrier",
+        "contact_via_email",
+        "resident",
+        "contact_via_mail",
+        "contact_via_phone",
+        "drivers_license_number",
+        "drivers_license_expire_at",
+        "passport_number",
+        "passport_expire_at",
+        "registration_number",
+        "registration_date",
+        "caregiver",
+        "physician",
+        "verification_number",
+        "verification_web",
+        "primary_center_designation_date",
+        "primary_center",
+        "customer_max_plant_count",
+        "newsletter_group",
+        "referral",
+        "referral_signature",
+        "application_date",
+        "custom_barcode",
+        "custom_membership_id",
+        "monthly_quota",
+        "monthly_quota_unit",
+        "tax_exempt",
+        "wholesale",
+        "confirmed",
+        "confirmed_date",
+        "customer_signature",
+        "membership_expired",
+        "available_credits",
+        "total_visits",
+        "created_date",
+        "updated_date",
+        "is_deleted",
+        "deleted_date",
+        "is_locked",
+        "lock_reason",
+        "locked_date",
+        "unlocked_date",
+        "_id",
+        "created_at",
+        "name",
+        "address",
+        "gender",
+        "email",
+        "dob",
+        "drivers_expire_at",
+        "card_expired_at",
+        "membership_type",
+        "license_type",
+        "dispensary_id",
+        "created_by",
+        "patient_signature",
+        "__v"
+      ]
+    },
+    "Picture": {
+      "title": "Picture",
+      "example": {
+        "small": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg",
+        "medium": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg",
+        "large": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg"
+      },
+      "type": "object",
+      "properties": {
+        "small": {
+          "description": "",
+          "example": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_small.jpg",
+          "type": "string"
+        },
+        "medium": {
+          "description": "",
+          "example": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_medium.jpg",
+          "type": "string"
+        },
+        "large": {
+          "description": "",
+          "example": "/images/profile/patient/patient_profile_5aa3d8814ef6ec2b24bb868d_large.jpg",
+          "type": "string"
+        }
+      },
+      "required": [
+        "small",
+        "medium",
+        "large"
+      ]
+    },
+    "AddPatientrequest": {
+      "title": "Add patientRequest",
+      "example": {
+        "name": "Tarun Sharma4",
+        "email": "truns4@yopmail.com",
+        "phone_number": "1234567981722",
+        "registration_number": "00011144744",
+        "registration_date": "2018-05-20",
+        "card_expired_at": "2020-10-12",
+        "membership_type": 1,
+        "license_type": 1,
+        "application_date": "2018-05-20",
+        "address": "Noida, UP",
+        "dob": "1990-10-20",
+        "gender": "M"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "example": "Tarun Sharma4",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "truns4@yopmail.com",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "example": "1234567981722",
+          "type": "string"
+        },
+        "registration_number": {
+          "description": "",
+          "example": "00011144744",
+          "type": "string"
+        },
+        "registration_date": {
+          "description": "",
+          "example": "2018-05-20",
+          "type": "string"
+        },
+        "card_expired_at": {
+          "description": "",
+          "example": "2020-10-12",
+          "type": "string"
+        },
+        "membership_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "license_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "application_date": {
+          "description": "",
+          "example": "2018-05-20",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "Noida, UP",
+          "type": "string"
+        },
+        "dob": {
+          "description": "",
+          "example": "1990-10-20",
+          "type": "string"
+        },
+        "gender": {
+          "description": "",
+          "example": "M",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone_number",
+        "registration_number",
+        "registration_date",
+        "card_expired_at",
+        "membership_type",
+        "license_type",
+        "application_date",
+        "address",
+        "dob",
+        "gender"
+      ]
+    },
+    "AddNewPatient": {
+      "title": "Add new Patient",
+      "example": {
+        "response": true,
+        "message": "Patient has been added",
+        "data": {
+          "pre_data": "null",
+          "post_data": {
+            "name": "Tarun Sharma",
+            "email": "truns@yopmail.com",
+            "phone_number": "12345679",
+            "registration_number": "000111444",
+            "registration_date": "\"2018-05-20T00:00:00Z\"",
+            "card_expired_at": "\"2020-10-12T00:00:00Z\"",
+            "membership_type": 1,
+            "license_type": 1,
+            "application_date": "\"2018-05-20T00:00:00Z\"",
+            "address": "Noida, UP",
+            "dob": "\"1990-10-20T00:00:00Z\"",
+            "gender": "M",
+            "created_by": "5aa92816d493de2fb4c614f5",
+            "dispensary_id": "5b27e67bebfc350005fe2f40"
+          },
+          "created_date": "\"2018-05-22T12:14:23.485Z\"",
+          "_id": "5b0409e91cb98b2fe0264abd",
+          "operation": "created",
+          "module": "customers",
+          "created_by": "5aa92816d493de2fb4c614f5",
+          "__v": 0
+        }
+      },
+      "type": "object",
+      "properties": {
+        "response": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "message": {
+          "description": "",
+          "example": "Patient has been added",
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/Data7"
+        }
+      },
+      "required": [
+        "response",
+        "message",
+        "data"
+      ]
+    },
+    "Data7": {
+      "title": "Data7",
+      "example": {
+        "pre_data": null,
+        "post_data": {
+          "name": "Tarun Sharma",
+          "email": "truns@yopmail.com",
+          "phone_number": "12345679",
+          "registration_number": "000111444",
+          "registration_date": "2018-05-20T00:00:00Z",
+          "card_expired_at": "2020-10-12T00:00:00Z",
+          "membership_type": 1,
+          "license_type": 1,
+          "application_date": "2018-05-20T00:00:00Z",
+          "address": "Noida, UP",
+          "dob": "1990-10-20T00:00:00Z",
+          "gender": "M",
+          "created_by": "5aa92816d493de2fb4c614f5",
+          "dispensary_id": "5b27e67bebfc350005fe2f40"
+        },
+        "created_date": "2018-05-22T12:14:23.485Z",
+        "_id": "5b0409e91cb98b2fe0264abd",
+        "operation": "created",
+        "module": "customers",
+        "created_by": "5aa92816d493de2fb4c614f5",
+        "__v": 0
+      },
+      "type": "object",
+      "properties": {
+        "pre_data": {
+          "description": "",
+          "type": "string"
+        },
+        "post_data": {
+          "$ref": "#/definitions/PostData"
+        },
+        "created_date": {
+          "description": "",
+          "example": "5/22/2018 12:14:23 PM",
+          "type": "string"
+        },
+        "_id": {
+          "description": "",
+          "example": "5b0409e91cb98b2fe0264abd",
+          "type": "string"
+        },
+        "operation": {
+          "description": "",
+          "example": "created",
+          "type": "string"
+        },
+        "module": {
+          "description": "",
+          "example": "customers",
+          "type": "string"
+        },
+        "created_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "__v": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "pre_data",
+        "post_data",
+        "created_date",
+        "_id",
+        "operation",
+        "module",
+        "created_by",
+        "__v"
+      ]
+    },
+    "PostData": {
+      "title": "PostData",
+      "example": {
+        "name": "Tarun Sharma",
+        "email": "truns@yopmail.com",
+        "phone_number": "12345679",
+        "registration_number": "000111444",
+        "registration_date": "2018-05-20T00:00:00Z",
+        "card_expired_at": "2020-10-12T00:00:00Z",
+        "membership_type": 1,
+        "license_type": 1,
+        "application_date": "2018-05-20T00:00:00Z",
+        "address": "Noida, UP",
+        "dob": "1990-10-20T00:00:00Z",
+        "gender": "M",
+        "created_by": "5aa92816d493de2fb4c614f5",
+        "dispensary_id": "5b27e67bebfc350005fe2f40"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "example": "Tarun Sharma",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "truns@yopmail.com",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "example": "12345679",
+          "type": "string"
+        },
+        "registration_number": {
+          "description": "",
+          "example": "000111444",
+          "type": "string"
+        },
+        "registration_date": {
+          "description": "",
+          "example": "5/20/2018 12:00:00 AM",
+          "type": "string"
+        },
+        "card_expired_at": {
+          "description": "",
+          "example": "10/12/2020 12:00:00 AM",
+          "type": "string"
+        },
+        "membership_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "license_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "application_date": {
+          "description": "",
+          "example": "5/20/2018 12:00:00 AM",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "Noida, UP",
+          "type": "string"
+        },
+        "dob": {
+          "description": "",
+          "example": "10/20/1990 12:00:00 AM",
+          "type": "string"
+        },
+        "gender": {
+          "description": "",
+          "example": "M",
+          "type": "string"
+        },
+        "created_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "dispensary_id": {
+          "description": "",
+          "example": "5b27e67bebfc350005fe2f40",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "phone_number",
+        "registration_number",
+        "registration_date",
+        "card_expired_at",
+        "membership_type",
+        "license_type",
+        "application_date",
+        "address",
+        "dob",
+        "gender",
+        "created_by",
+        "dispensary_id"
+      ]
+    },
+    "EditPatientrequest": {
+      "title": "Edit patientRequest",
+      "example": {
+        "gender": "M"
+      },
+      "type": "object",
+      "properties": {
+        "gender": {
+          "description": "",
+          "example": "M",
+          "type": "string"
+        }
+      },
+      "required": [
+        "gender"
+      ]
+    },
+    "LockPatientrequest": {
+      "title": "Lock patientRequest",
+      "example": {
+        "lock_reason": "test lock reason"
+      },
+      "type": "object",
+      "properties": {
+        "lock_reason": {
+          "description": "",
+          "example": "test lock reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "lock_reason"
+      ]
+    },
+    "UnlockPatientrequest": {
+      "title": "Unlock patientRequest",
+      "example": {
+        "email": "sonu@yopmail.com",
+        "password": "123456"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "",
+          "example": "sonu@yopmail.com",
+          "type": "string"
+        },
+        "password": {
+          "description": "",
+          "example": "123456",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "AddNoterequest": {
+      "title": "Add noteRequest",
+      "example": {
+        "note": "test note4"
+      },
+      "type": "object",
+      "properties": {
+        "note": {
+          "description": "",
+          "example": "test note4",
+          "type": "string"
+        }
+      },
+      "required": [
+        "note"
+      ]
+    },
+    "EditNoterequest": {
+      "title": "Edit noteRequest",
+      "example": {
+        "note": "test note4 updated"
+      },
+      "type": "object",
+      "properties": {
+        "note": {
+          "description": "",
+          "example": "test note4 updated",
+          "type": "string"
+        }
+      },
+      "required": [
+        "note"
+      ]
+    },
+    "AddFavoriterequest": {
+      "title": "Add favoriteRequest",
+      "example": {
+        "favorite": "test favorite2"
+      },
+      "type": "object",
+      "properties": {
+        "favorite": {
+          "description": "",
+          "example": "test favorite2",
+          "type": "string"
+        }
+      },
+      "required": [
+        "favorite"
+      ]
+    },
+    "EditFavoriterequest": {
+      "title": "Edit favoriteRequest",
+      "example": {
+        "favorite": "test favorite2 updated"
+      },
+      "type": "object",
+      "properties": {
+        "favorite": {
+          "description": "",
+          "example": "test favorite2 updated",
+          "type": "string"
+        }
+      },
+      "required": [
+        "favorite"
+      ]
+    },
+    "GetPatientByLicenseType": {
+      "title": "get patient by license type",
+      "type": "object",
+      "properties": {
+        "response": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "count": {
+          "description": "",
+          "example": 4,
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "description": "",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Data17"
+          }
+        }
+      },
+      "required": [
+        "response",
+        "count",
+        "data"
+      ]
+    },
+    "Data17": {
+      "title": "Data17",
+      "type": "object",
+      "properties": {
+        "picture": {
+          "$ref": "#/definitions/Picture"
+        },
+        "city": {
+          "description": "",
+          "example": "New Updated",
+          "type": "string"
+        },
+        "state": {
+          "description": "",
+          "example": "LOS",
+          "type": "string"
+        },
+        "zip_code": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "example": "92555855676",
+          "type": "string"
+        },
+        "phone_number_home": {
+          "description": "",
+          "type": "string"
+        },
+        "phone_carrier": {
+          "description": "",
+          "type": "string"
+        },
+        "contact_via_email": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "resident": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "contact_via_mail": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "contact_via_phone": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "drivers_license_number": {
+          "description": "",
+          "type": "string"
+        },
+        "drivers_license_expire_at": {
+          "description": "",
+          "example": "5/31/2020 6:30:00 PM",
+          "type": "string"
+        },
+        "passport_number": {
+          "description": "",
+          "type": "string"
+        },
+        "passport_expire_at": {
+          "description": "",
+          "type": "string"
+        },
+        "registration_number": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "registration_date": {
+          "description": "",
+          "type": "string"
+        },
+        "caregiver": {
+          "description": "",
+          "type": "string"
+        },
+        "physician": {
+          "description": "",
+          "type": "string"
+        },
+        "verification_number": {
+          "description": "",
+          "type": "string"
+        },
+        "verification_web": {
+          "description": "",
+          "type": "string"
+        },
+        "primary_center_designation_date": {
+          "description": "",
+          "type": "string"
+        },
+        "primary_center": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "customer_max_plant_count": {
+          "description": "",
+          "type": "string"
+        },
+        "newsletter_group": {
+          "description": "",
+          "type": "string"
+        },
+        "referral": {
+          "description": "",
+          "type": "string"
+        },
+        "referral_signature": {
+          "description": "",
+          "example": "sjdfk934509hjh83095",
+          "type": "string"
+        },
+        "application_date": {
+          "description": "",
+          "example": "3/14/2018 6:30:00 PM",
+          "type": "string"
+        },
+        "custom_barcode": {
+          "description": "",
+          "type": "string"
+        },
+        "custom_membership_id": {
+          "description": "",
+          "example": "20130307937600155",
+          "type": "string"
+        },
+        "monthly_quota": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "monthly_quota_unit": {
+          "description": "",
+          "type": "string"
+        },
+        "tax_exempt": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "wholesale": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "confirmed": {
+          "description": "",
+          "example": true,
+          "type": "boolean"
+        },
+        "confirmed_date": {
+          "description": "",
+          "type": "string"
+        },
+        "customer_signature": {
+          "description": "",
+          "type": "string"
+        },
+        "membership_expired": {
+          "description": "",
+          "example": "5/31/2018 11:13:38 AM",
+          "type": "string"
+        },
+        "available_credits": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "total_visits": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "created_date": {
+          "description": "",
+          "example": "3/19/2018 5:06:14 PM",
+          "type": "string"
+        },
+        "updated_date": {
+          "description": "",
+          "type": "string"
+        },
+        "is_deleted": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "deleted_date": {
+          "description": "",
+          "type": "string"
+        },
+        "is_locked": {
+          "description": "",
+          "example": false,
+          "type": "boolean"
+        },
+        "lock_reason": {
+          "description": "",
+          "type": "string"
+        },
+        "locked_date": {
+          "description": "",
+          "type": "string"
+        },
+        "unlocked_date": {
+          "description": "",
+          "type": "string"
+        },
+        "_id": {
+          "description": "",
+          "example": "5aa3d8814ef6ec2b24bb868d",
+          "type": "string"
+        },
+        "name": {
+          "description": "",
+          "example": "Larry Davis",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "2890 Big Indian Kenner, LA 70062",
+          "type": "string"
+        },
+        "gender": {
+          "description": "",
+          "example": "genddre",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "ldavis@yopmail.com",
+          "type": "string"
+        },
+        "dob": {
+          "description": "",
+          "example": "19-06-12T00:00:00.000Z",
+          "type": "string"
+        },
+        "card_expired_at": {
+          "description": "",
+          "example": "5/31/2018 6:30:00 PM",
+          "type": "string"
+        },
+        "membership_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "license_type": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "dispensary_id": {
+          "description": "",
+          "example": "5b27e67bebfc350005fe2f40",
+          "type": "string"
+        },
+        "created_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "patient_signature": {
+          "description": "",
+          "type": "string"
+        },
+        "__v": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "created_at": {
+          "description": "",
+          "example": "3/10/2018 1:00:46 PM",
+          "type": "string"
+        },
+        "drivers_expire_at": {
+          "description": "",
+          "type": "string"
+        },
+        "locked_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "unlocked_by": {
+          "description": "",
+          "type": "string"
+        },
+        "updated_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        },
+        "deleted_by": {
+          "description": "",
+          "example": "5aa92816d493de2fb4c614f5",
+          "type": "string"
+        }
+      },
+      "required": [
+        "picture",
+        "city",
+        "state",
+        "zip_code",
+        "phone_number",
+        "phone_number_home",
+        "phone_carrier",
+        "contact_via_email",
+        "resident",
+        "contact_via_mail",
+        "contact_via_phone",
+        "drivers_license_number",
+        "drivers_license_expire_at",
+        "passport_number",
+        "passport_expire_at",
+        "registration_number",
+        "registration_date",
+        "caregiver",
+        "physician",
+        "verification_number",
+        "verification_web",
+        "primary_center_designation_date",
+        "primary_center",
+        "customer_max_plant_count",
+        "newsletter_group",
+        "referral",
+        "referral_signature",
+        "application_date",
+        "custom_barcode",
+        "custom_membership_id",
+        "monthly_quota",
+        "monthly_quota_unit",
+        "tax_exempt",
+        "wholesale",
+        "confirmed",
+        "confirmed_date",
+        "customer_signature",
+        "membership_expired",
+        "available_credits",
+        "total_visits",
+        "created_date",
+        "updated_date",
+        "is_deleted",
+        "deleted_date",
+        "is_locked",
+        "lock_reason",
+        "locked_date",
+        "unlocked_date",
+        "_id",
+        "name",
+        "address",
+        "gender",
+        "email",
+        "dob",
+        "card_expired_at",
+        "membership_type",
+        "license_type",
+        "dispensary_id",
+        "created_by",
+        "patient_signature",
+        "__v"
+      ]
+    },
+    "AddEmployeerequest": {
+      "title": "Add employeeRequest",
+      "example": {
+        "name": {
+          "firstname": "John",
+          "lastname": "Rock"
+        },
+        "password": "123456",
+        "quick_password": "test",
+        "email": "jrock@yopmail.com",
+        "access": 1,
+        "license_no": "1112233"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/Name"
+        },
+        "password": {
+          "description": "",
+          "example": "123456",
+          "type": "string"
+        },
+        "quick_password": {
+          "description": "",
+          "example": "test",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "jrock@yopmail.com",
+          "type": "string"
+        },
+        "access": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "license_no": {
+          "description": "",
+          "example": "1112233",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "password",
+        "quick_password",
+        "email",
+        "access",
+        "license_no"
+      ]
+    },
+    "Name": {
+      "title": "Name",
+      "example": {
+        "firstname": "John",
+        "lastname": "Rock"
+      },
+      "type": "object",
+      "properties": {
+        "firstname": {
+          "description": "",
+          "example": "John",
+          "type": "string"
+        },
+        "lastname": {
+          "description": "",
+          "example": "Rock",
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstname",
+        "lastname"
+      ]
+    },
+    "AssignStorerequest": {
+      "title": "Assign storeRequest",
+      "example": {
+        "dispensary_id": "5b27e67bebfc350005fe2f40"
+      },
+      "type": "object",
+      "properties": {
+        "dispensary_id": {
+          "description": "",
+          "example": "5b27e67bebfc350005fe2f40",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dispensary_id"
+      ]
+    },
+    "EditEmployeerequest": {
+      "title": "Edit employeeRequest",
+      "example": {
+        "name": {
+          "firstname": "test updated",
+          "lastname": "employee"
+        }
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/Name"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "AddMenurequest": {
+      "title": "Add menuRequest",
+      "example": {
+        "name": "501st OG",
+        "category": 1,
+        "product_type": 2,
+        "activation_time": 0,
+        "description": "Our ACO capsules contain whole plant cannabis oil. The Master Growers Ethanol extraction process preserves the natural cannabinoids, terpenes and alkaloids of the cannabis plant. We combine our ACO with organic cacao butter to enhance absorp- tion and increase utilization. INGREDIENTS: 25 mg ACO, Organic Cacao Butter, Organic Gelatin Capsule",
+        "price": {
+          "half_gram": 23.0,
+          "one_gram": 23.0,
+          "two_gram": 23.0,
+          "one_eight_oz": 23.0,
+          "one_forth_oz": 23.0,
+          "half_oz": 23.0,
+          "one_oz": 23.0
+        },
+        "vendor_id": "5abb7da070c6b728e08e56c8",
+        "batch_number": "000004",
+        "stock_units": "0.0",
+        "strain_profile": {
+          "indica": 0.0,
+          "sativa": 0.0
+        },
+        "lab_test_result": {
+          "thc_percent": 0.0,
+          "thca_percent": 0.0,
+          "cbd_percent": 0.0,
+          "cbda_percent": 0.0,
+          "cbn_percent": 0.0
+        }
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "example": "501st OG",
+          "type": "string"
+        },
+        "category": {
+          "description": "",
+          "example": 1,
+          "type": "integer",
+          "format": "int32"
+        },
+        "product_type": {
+          "description": "",
+          "example": 2,
+          "type": "integer",
+          "format": "int32"
+        },
+        "activation_time": {
+          "description": "",
+          "example": 0,
+          "type": "integer",
+          "format": "int32"
+        },
+        "description": {
+          "description": "",
+          "example": "Our ACO capsules contain whole plant cannabis oil. The Master Growers Ethanol extraction process preserves the natural cannabinoids, terpenes and alkaloids of the cannabis plant. We combine our ACO with organic cacao butter to enhance absorp- tion and increase utilization. INGREDIENTS: 25 mg ACO, Organic Cacao Butter, Organic Gelatin Capsule",
+          "type": "string"
+        },
+        "price": {
+          "$ref": "#/definitions/Price"
+        },
+        "vendor_id": {
+          "description": "",
+          "example": "5abb7da070c6b728e08e56c8",
+          "type": "string"
+        },
+        "batch_number": {
+          "description": "",
+          "example": "000004",
+          "type": "string"
+        },
+        "stock_units": {
+          "description": "",
+          "example": "0.0",
+          "type": "string"
+        },
+        "strain_profile": {
+          "$ref": "#/definitions/StrainProfile"
+        },
+        "lab_test_result": {
+          "$ref": "#/definitions/LabTestResult"
+        }
+      },
+      "required": [
+        "name",
+        "category",
+        "product_type",
+        "activation_time",
+        "description",
+        "price",
+        "vendor_id",
+        "batch_number",
+        "stock_units",
+        "strain_profile",
+        "lab_test_result"
+      ]
+    },
+    "Price": {
+      "title": "Price",
+      "example": {
+        "half_gram": 23.0,
+        "one_gram": 23.0,
+        "two_gram": 23.0,
+        "one_eight_oz": 23.0,
+        "one_forth_oz": 23.0,
+        "half_oz": 23.0,
+        "one_oz": 23.0
+      },
+      "type": "object",
+      "properties": {
+        "half_gram": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "one_gram": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "two_gram": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "one_eight_oz": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "one_forth_oz": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "half_oz": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        },
+        "one_oz": {
+          "description": "",
+          "example": 23,
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "half_gram",
+        "one_gram",
+        "two_gram",
+        "one_eight_oz",
+        "one_forth_oz",
+        "half_oz",
+        "one_oz"
+      ]
+    },
+    "StrainProfile": {
+      "title": "StrainProfile",
+      "example": {
+        "indica": 0.0,
+        "sativa": 0.0
+      },
+      "type": "object",
+      "properties": {
+        "indica": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "sativa": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "indica",
+        "sativa"
+      ]
+    },
+    "LabTestResult": {
+      "title": "LabTestResult",
+      "example": {
+        "thc_percent": 0.0,
+        "thca_percent": 0.0,
+        "cbd_percent": 0.0,
+        "cbda_percent": 0.0,
+        "cbn_percent": 0.0
+      },
+      "type": "object",
+      "properties": {
+        "thc_percent": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "thca_percent": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "cbd_percent": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "cbda_percent": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        },
+        "cbn_percent": {
+          "description": "",
+          "example": 0,
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+        "thc_percent",
+        "thca_percent",
+        "cbd_percent",
+        "cbda_percent",
+        "cbn_percent"
+      ]
+    },
+    "EditMenurequest": {
+      "title": "Edit menuRequest",
+      "example": {
+        "description": "501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping."
+      },
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "",
+          "example": "501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "DeleteMenurequest": {
+      "title": "Delete menuRequest",
+      "example": {
+        "description": "501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping."
+      },
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "",
+          "example": "501st OG, bred by Rare Dankness, is an indica-dominant hybrid that crosses Skywalker OG with Rare Dankness #1. The colorful flowers are tinged with a wide spectrum of green, blue, red, and purple hues that give off a deep piney kush aroma that mixes with the sweetness of grape flavors. The potent indica effects make 501st OG a great nighttime strain to help with pain relief and trouble sleeping.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "description"
+      ]
+    },
+    "AddDispensaryrequest": {
+      "title": "Add dispensaryRequest",
+      "example": {
+        "name": "831 Organiks- NEW STORE",
+        "address": "Oakland",
+        "country": "America",
+        "region": "oakland",
+        "time_zone": "America/Los_Angeles",
+        "license_type": "1"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "example": "831 Organiks- NEW STORE",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "Oakland",
+          "type": "string"
+        },
+        "country": {
+          "description": "",
+          "example": "America",
+          "type": "string"
+        },
+        "region": {
+          "description": "",
+          "example": "oakland",
+          "type": "string"
+        },
+        "time_zone": {
+          "description": "",
+          "example": "America/Los_Angeles",
+          "type": "string"
+        },
+        "license_type": {
+          "description": "",
+          "example": "1",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "address",
+        "country",
+        "region",
+        "time_zone",
+        "license_type"
+      ]
+    },
+    "EditDispensaryrequest": {
+      "title": "Edit dispensaryRequest",
+      "example": {
+        "address": "Address test upadted"
+      },
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "",
+          "example": "Address test upadted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ]
+    },
+    "DeleteDispensaryrequest": {
+      "title": "Delete dispensaryRequest",
+      "example": {
+        "address": "Address test upadted"
+      },
+      "type": "object",
+      "properties": {
+        "address": {
+          "description": "",
+          "example": "Address test upadted",
+          "type": "string"
+        }
+      },
+      "required": [
+        "address"
+      ]
+    },
+    "AddVendorrequest": {
+      "title": "Add vendorRequest",
+      "example": {
+        "name": "Organik farms -3 ",
+        "address": "Organik farms address",
+        "license_type": "1",
+        "email": "farm3@yopmail.com",
+        "phone_number": "12345698727"
+      },
+      "type": "object",
+      "properties": {
+        "name": {
+          "description": "",
+          "example": "Organik farms -3 ",
+          "type": "string"
+        },
+        "address": {
+          "description": "",
+          "example": "Organik farms address",
+          "type": "string"
+        },
+        "license_type": {
+          "description": "",
+          "example": "1",
+          "type": "string"
+        },
+        "email": {
+          "description": "",
+          "example": "farm3@yopmail.com",
+          "type": "string"
+        },
+        "phone_number": {
+          "description": "",
+          "example": "12345698727",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "address",
+        "license_type",
+        "email",
+        "phone_number"
+      ]
+    },
+    "EditVendorrequest": {
+      "title": "Edit vendorRequest",
+      "example": {
+        "email": "ofarm-udate@yopmail.com"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "",
+          "example": "ofarm-udate@yopmail.com",
+          "type": "string"
+        }
+      },
+      "required": [
+        "email"
+      ]
+    }
+  }
+}
