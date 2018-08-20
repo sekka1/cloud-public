@@ -11,7 +11,7 @@ spec:
       - name: gravitee-management-ui
         env:
           - name: MGMT_API_URL
-            value: https://gravitee-management-api.lyfted.demo.devops.bot/management/
+            value: https://management-api.lyfted.co/management/
         resources:
           requests:
             memory: "256Mi"
@@ -28,10 +28,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - gravitee-management-ui.lyfted.demo.devops.bot
+    - developer.lyfted.co
     secretName: gravitee-management-ui
   rules:
-  - host: gravitee-management-ui.lyfted.demo.devops.bot
+  - host: developer.lyfted.co
     http:
       paths:
       - path: /

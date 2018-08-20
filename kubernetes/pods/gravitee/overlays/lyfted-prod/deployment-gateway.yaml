@@ -25,10 +25,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - gravitee-gateway.lyfted.demo.devops.bot
+    - gateway.lyfted.co
     secretName: gravitee-gateway
   rules:
-  - host: gravitee-gateway.lyfted.demo.devops.bot
+  - host: gateway.lyfted.co
     http:
       paths:
       - path: /

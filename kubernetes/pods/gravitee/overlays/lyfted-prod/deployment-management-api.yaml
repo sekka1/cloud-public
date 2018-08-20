@@ -25,10 +25,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - gravitee-management-api.lyfted.demo.devops.bot
+    - management-api.lyfted.co
     secretName: gravitee-management-api
   rules:
-  - host: gravitee-management-api.lyfted.demo.devops.bot
+  - host: management-api.lyfted.co
     http:
       paths:
       - path: /
