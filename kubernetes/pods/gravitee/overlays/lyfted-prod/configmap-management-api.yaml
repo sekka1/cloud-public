@@ -1,0 +1,373 @@
+#
+# Doc: https://docs.gravitee.io/apim_installguide_management_api_configuration.html
+# Source: management-api
+#          /opt/graviteeio-management-api/config/gravitee.yml
+#
+#
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: management-api
+data:
+  gravitee.yml: |-
+    ############################################################################################################
+    ################################ Gravitee.IO Management API - Configuration ################################
+    ############################################################################################################
+
+    ############################################################################################################
+    # This file is the general configuration of Gravitee.IO Management API:
+    # - Properties (and respective default values) in comment are provided for information.
+    # - You can reference other property by using ${property.name} syntax
+    # - gravitee.home property is automatically set-up by launcher and refers to the installation path. Do not override it !
+    #
+    # Please have a look to http://docs.gravitee.io/ for more options and fine-grained granularity
+    ############################################################################################################
+
+    # HTTP Server
+    #jetty:
+    #  IP/hostname to bind to. Default is 0.0.0.0
+    #  host: 0.0.0.0
+    #  port: 8083
+    #  idleTimeout: 30000
+    #  acceptors: -1
+    #  selectors: -1
+    #  pool:
+    #    minThreads: 10
+    #    maxThreads: 200
+    #    idleTimeout: 60000
+    #    queueSize: 6000
+    #  jmx: false
+    #  statistics: false
+    #  accesslog:
+    #    enabled: true
+    #    path: ${gravitee.home}/logs/gravitee_accesslog_yyyy_mm_dd.log
+    #  secured: false
+    #  ssl:
+    #    keystore:
+    #      path: ${gravitee.home}/security/keystore.jks
+    #      password: secret
+    #    truststore:
+    #      path: ${gravitee.home}/security/truststore.jks
+    #      password: secret
+
+    http:
+      cors:
+        # Allows to configure the header Access-Control-Allow-Origin (default value: *)
+        # '*' is a valid value but is considered as a security risk as it will be opened to cross origin requests from anywhere.
+        #allow-origin: http://developer.mycompany.com
+        # Allows to define how long the result of the preflight request should be cached for (default value; 1728000 [20 days])
+        #max-age: 864000
+        # Which methods to allow (default value: OPTIONS, GET, POST, PUT, DELETE)
+        #allow-methods: 'OPTIONS, GET, POST, PUT, DELETE'
+        # Which headers to allow (default values: Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With, If-Match)
+        #allow-headers: 'X-Requested-With'
+
+    # Plugins repository
+    #plugins:
+    #  path:
+    #    - ${gravitee.home}/plugins
+    #    - ${gravitee.home}/my-custom-plugins
+    # If a external is already installed (but with a different version), management node does not start anymore
+    #  failOnDuplicate: true
+
+    # Management repository is used to store global configuration such as APIs, applications, apikeys, ...
+    # This is the default configuration using MongoDB (single server)
+    # For more information about MongoDB configuration, please have a look to:
+    # - http://api.mongodb.org/java/current/com/mongodb/MongoClientOptions.html
+    management:
+      type: mongodb
+      mongodb:
+        dbname: ${ds.mongodb.dbname}
+        host: ${ds.mongodb.host}
+        port: ${ds.mongodb.port}
+    #    username:
+    #    password:
+    #    connectionsPerHost: 0
+    #    connectTimeout: 500
+    #    maxWaitTime: 120000
+    #    socketTimeout: 500
+    #    socketKeepAlive: false
+    #    maxConnectionLifeTime: 0
+    #    maxConnectionIdleTime: 0
+    #    serverSelectionTimeout: 0
+    #    description: gravitee.io
+    #    heartbeatFrequency: 10000
+    #    minHeartbeatFrequency: 500
+    #    heartbeatConnectTimeout: 1000
+    #    heartbeatSocketTimeout: 20000
+    #    localThreshold: 15
+    #    minConnectionsPerHost: 0
+    #    sslEnabled: false
+    #    threadsAllowedToBlockForConnectionMultiplier: 5
+    #    cursorFinalizerEnabled: true
+
+    # Management repository: single MongoDB using URI
+    # For more information about MongoDB configuration using URI, please have a look to:
+    # - http://api.mongodb.org/java/current/com/mongodb/MongoClientURI.html
+    #management:
+    #  type: mongodb
+    #  mongodb:
+    #    uri: mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]
+
+    # Management repository: clustered MongoDB
+    #management:
+    #  type: mongodb
+    #  mongodb:
+    #    servers:
+    #      - host: mongo1
+    #        port: 27017
+    #      - host: mongo2
+    #        port: 27017
+    #    dbname: ${ds.mongodb.dbname}
+    #    connectTimeout: 500
+    #    socketTimeout: 250
+
+    services:
+      core:
+        http:
+          enabled: true
+          port: 18083
+          host: localhost
+          authentication:
+            # authentication type to be used for the core services
+            # - none : to disable authentication
+            # - basic : to use basic authentication
+            # default is "basic"
+            type: basic
+            users:
+              admin: adminadmin
+
+    # Analytics repository is used to store all reporting, metrics, healthchecks stored by gateway instances
+    # This is the default configuration using Elasticearch
+    analytics:
+      type: elasticsearch
+      elasticsearch:
+        endpoints:
+          - http://${ds.elastic.host}:${ds.elastic.port}
+    #    index: gravitee
+    #    cluster: elasticsearch
+    #    index_per_type: true
+    #    settings:
+    #      number_of_shards: 5
+    #      number_of_replicas: 1
+
+    # Authentication and identity sources
+    # Users can have following roles (authorities):
+    #  USER: Can access portal and be a member of an API
+    #  API_PUBLISHER: Can create and manage APIs
+    #  API_CONSUMER: Can create and manage Applications
+    #  ADMIN: Can manage global system
+    security:
+      providers:  # authentication providers
+        - type: memory
+          # password encoding/hashing algorithm. One of:
+          # - bcrypt : passwords are hashed with bcrypt
+          # - none : passwords are not hashed/encrypted
+          # default value is bcrypt
+          password-encoding-algo: none
+          users:
+            - user:
+              username: user
+              # Passwords are encoded using BCrypt
+              # Password value: password
+              #password: $2a$10$9kjw/SH9gucCId3Lnt6EmuFreUAcXSZgpvAYuW2ISv7hSOhHRH1AO
+              password: H9gucCId!3Ln
+              roles: MANAGEMENT:USER, PORTAL:USER
+            - user:
+              username: admin
+              # Password value: admin
+              #password: $2a$10$Ihk05VSds5rUSgMdsMVi9OKMIx2yUvMz7y9VP3rJmQeizZLrhLMyq
+              password: H9gucCId!3Ln
+              roles: ADMIN
+            - user:
+              username: api1
+              # Password value: api1
+              #password: $2a$10$iXdXO4wAYdhx2LOwijsp7.PsoAZQ05zEdHxbriIYCbtyo.y32LTji
+              password: H9gucCId!3Ln
+              # You can declare multiple roles using comma separator
+              roles: MANAGEMENT:API_PUBLISHER, PORTAL:API_PUBLISHER
+            - user:
+              username: application1
+              # Password value: application1
+              #password: $2a$10$2gtKPYRB9zaVaPcn5RBx/.3T.7SeZoDGs9GKqbo9G64fKyXFR1He.
+              password: H9gucCId!3Ln
+              roles: MANAGEMENT:USER, PORTAL:USER
+        # Enable authentication using internal repository
+        - type: gravitee
+    #    - type: ldap
+          # This is default LDAP configuration for ApacheDS
+    #      context-source-username: "uid=admin,ou=system"
+    #      context-source-password: "secret"
+    #      context-source-url: "ldap://localhost:10389/c=io,o=gravitee"
+    #      context-source-base: "c=io,o=gravitee" # the context source base
+          # The 'user-dn-patterns' value is a specific pattern used to build the user's DN, for example "uid={0},ou=people". The key "{0}" must be present and will be substituted with the username.
+    #      user-dn-patterns: "uid={0},ou=people"
+          # Search base for user searches. Defaults to "". Only used with user-search-filter.
+          # It should be relative to the Base DN. If the whole DN is o=user accounts,c=io,o=gravitee then the user-search-base should be like this:
+    #      user-search-base: "o=user accounts"
+          # The LDAP filter used to search for users (optional). For example "(uid={0})". The substituted parameter is the user's login name.
+    #      user-search-filter: "mail={0}"
+          # The objectclass used when searching for user (optional). Default is "person".
+    #      user-search-objectclass: "person"
+          # The search base for group membership searches. Defaults to "".
+          # It should be relative to the Base DN. If the whole DN is o=authorization groups,c=io,o=gravitee then the group-search-base should be like this:
+    #      group-search-base: "o=authorization groups"
+          # The LDAP filter to search for groups. Defaults to "(uniqueMember={0})". The substituted parameter is the DN of the user.
+    #      group-search-filter: "member={0}"
+          # Specifies the attribute name which contains the role name. Default is "cn".
+    #      group-role-attribute: "cn"
+          #   Use role-mapper to map LDAP role with internal Gravitee role (syntax { "user_ldap_role" : "user_new_added_ldap_role"})
+    #      role-mapper: {
+    #        GRAVITEE-CONSUMERS: API_CONSUMER,
+    #        GRAVITEE-PUBLISHERS: API_PUBLISHER,
+    #        GRAVITEE-ADMINS: ADMIN,
+    #        GRAVITEE-USERS: USER,
+    #      }
+    #    - type: google # Allow to authenticate to portal using a Google Plus account
+    #      clientId: xxxx-xxx-xxx-xxx
+    #      clientSecret: xxxx-xxx-xxx-xxxx
+    #    - type: github # Allow to authenticate to portal using a GitHub account
+    #      clientId: xxxx-xxx-xxx-xxx
+    #      clientSecret: xxxx-xxx-xxx-xxxx
+    #    - type: oauth2
+    #      clientId: xxxx-xxx-xxx-xxx
+    #      clientSecret: xxxx-xxx-xxx-xxx
+    #      tokenEndpoint: https://oauth2_authorization_server/token
+    #      userInfoEndpoint: https://oauth2_authorization_server/userinfo
+    #      tokenIntrospectionEndpoint: https://oauth2_authorization_server/token/introspect
+    #      accessTokenProperty: access_token
+    #      authorizationHeader: "Bearer %s"
+    #      mapping:
+    #        id: sub
+    #        email: email
+    #        lastname: family_name
+    #        firstname: given_name
+    #        picture: picture
+          #   by default created user will have default role for MANAGEMENT and PORTAL
+          #   you can override this by assigning user to groups, on user creation, if its user info content match expression
+    #     groups:
+    #       - mapping:
+    #           condition: "{#jsonPath(#profile, '$.identity_provider_id') == 'idp_5' && #jsonPath(#profile, '$.job_id') != 'API_BREAKER'}"
+    #           values: [Example group,soft user]
+    #       - mapping:
+    #           condition: "{#jsonPath(#profile, '$.job_id') != 'API_BREAKER'}"
+    #           values: ["Api consumer"]
+
+    # SMTP configuration used to send mails
+    # https://docs.gravitee.io/apim_installguide_management_api_configuration.html#configure_the_gmail_smtp_server
+    email:
+      enabled: true
+      host: smtp.gmail.com
+      port: 587
+      from: @gmail.com
+      username: @gmail.com
+      password:
+      properties:
+        auth: true
+        starttls.enable: true
+        ssl.trust: smtp.gmail.com
+
+    # Mail templates
+    #templates:
+    #  path: ${gravitee.home}/templates
+
+    # Referenced properties
+    ds:
+      mongodb:
+        dbname: gravitee
+        host: localhost
+        port: 27017
+      elastic:
+        host: localhost
+        port: 9200
+
+    jwt:
+      secret: yoKIE4Gr4v23je_Eor93u
+      # Allows to define the end of validity of the token in seconds (default 604800 = a week)
+      #expire-after: 604800
+      # Allows to define the end of validity of the token in seconds for email registration (default 86400 = a day)
+      #email-registration-expire-after: 86400
+      # Allows to define issuer (default gravitee-management-auth)
+      #issuer: gravitee-management-auth
+      # Allows to define cookie context path (default /)
+      #cookie-path: /
+      # Allows to define cookie domain (default "")
+      #cookie-domain: .gravitee.io
+      # Allows to define if cookie secure only (default false)
+      #cookie-secure: true
+
+    swagger:
+      # Default scheme used when creating an API from a Swagger descriptor if there is no scheme specified.
+      scheme: https
+
+    user:
+      login:
+        # Create a default application when user connects to the portal for the very first time (default true)
+        #defaultApplication: true
+      creation:
+        token:
+          #expire-after: 86400
+      reference:
+          # Secret key used to generate reference of a user which is unique (default: s3cR3t4grAv1t33.1Ous3D4R3f3r3nc3)
+          # Must contains 32 chars (256 bits)
+          #secret:
+
+    # The portal URL used in emails
+    #portalURL: http://portal-url.net
+
+  logback.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+
+    <!--
+      ~ Copyright (c) 2015-2016, The Gravitee team (http://www.gravitee.io)
+      ~
+      ~  Licensed under the Apache License, Version 2.0 (the "License");
+      ~  you may not use this file except in compliance with the License.
+      ~  You may obtain a copy of the License at
+      ~
+      ~  http://www.apache.org/licenses/LICENSE-2.0
+      ~
+      ~  Unless required by applicable law or agreed to in writing, software
+      ~  distributed under the License is distributed on an "AS IS" BASIS,
+      ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      ~  See the License for the specific language governing permissions and
+      ~  limitations under the License.
+      -->
+
+    <configuration>
+
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <!-- encoders are assigned the type
+                 ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>${gravitee.home}/logs/gravitee.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <!-- daily rollover -->
+                <fileNamePattern>${gravitee.home}/logs/gravitee_%d{yyyy-MM-dd}.log</fileNamePattern>
+
+                <!-- keep 30 days' worth of history -->
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+        <logger name="io.gravitee" level="INFO" />
+        <logger name="org.eclipse.jetty" level="INFO" />
+
+        <!-- Strictly speaking, the level attribute is not necessary since -->
+        <!-- the level of the root level is set to DEBUG by default.       -->
+        <root level="WARN">
+            <appender-ref ref="STDOUT" />
+            <appender-ref ref="FILE" />
+        </root>
+
+    </configuration>
