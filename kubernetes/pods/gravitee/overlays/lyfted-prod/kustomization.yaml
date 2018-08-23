@@ -9,3 +9,4 @@ patches:
 - deployment-management-ui.yaml
 - statefulset-es.yaml
 - statefulset-mongo.yaml
+- configmap-management-api.yaml

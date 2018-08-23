@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: gravitee-management-ui
-        image: graviteeio/management-ui:latest
+        image: graviteeio/management-ui:1.16.6
         env:
           - name: MGMT_API_URL
             value: https://gravitee-management-api.lyfted.demo.devops.bot/management/
