@@ -1,0 +1,129 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: ElasticsearchDomain resource
+Parameters:
+  DomainName:
+    Description: User defined Elasticsearch Domain name
+    Type: String
+  ElasticsearchVersion:
+    Description: User defined Elasticsearch Version
+    Type: String
+    Default: '6.2'
+  InstanceType:
+    Type: String
+    Default: m4.large.elasticsearch
+  InstanceCount:
+    Type: String
+    Default: '3'
+  EBSVolumeSize:
+    Type: String
+    Default: '200'
+  AvailabilityZone:
+    Type: String
+  CidrBlock:
+    Type: String
+    Default: '10.120.111.0/24'
+  SecurityGroupIngressIP:
+    Type: String
+    Default: '10.0.0.0/8'
+  TagPurpose:
+    Description: Tag Purpose
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagProduct:
+    Description: Tag Product
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagEnvironment:
+    Description: Tag Environment name (dev, qa, demo, prod)
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagTenant:
+    Description: Tag Tenant name
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagCostCenter:
+    Description: Tag Cost Center
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+Resources:
+  ElasticsearchDomain:
+    Type: 'AWS::Elasticsearch::Domain'
+    Properties:
+      DomainName: !Ref DomainName
+      ElasticsearchVersion: !Ref ElasticsearchVersion
+      ElasticsearchClusterConfig:
+        InstanceCount: !Ref InstanceCount
+        InstanceType: !Ref InstanceType
+      EBSOptions:
+        EBSEnabled: 'true'
+        Iops: 0
+        VolumeSize: !Ref EBSVolumeSize
+        VolumeType: gp2
+      SnapshotOptions:
+        AutomatedSnapshotStartHour: '0'
+      AccessPolicies:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: '*'
+            Action: 'es:*'
+            Resource: !Join ['',['!GetAtt ElasticsearchDomain.DomainArn','/*']]
+      AdvancedOptions:
+        rest.action.multi.allow_explicit_index: 'true'
+      Tags:
+        - Key: Purpose
+          Value:
+            Ref: TagPurpose
+        - Key: Product
+          Value:
+            Ref: TagProduct
+        - Key: Environment
+          Value:
+            Ref: TagEnvironment
+        - Key: Tenant
+          Value:
+            Ref: TagTenant
+        - Key: "Cost Center"
+          Value:
+            Ref: TagCostCenter
+      VPCOptions:
+        SubnetIds:
+          - !Ref subnet
+        SecurityGroupIds:
+          - !Ref securityGroup
+  vpc:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: !Ref CidrBlock
+  subnet:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      VpcId: !Ref vpc
+      CidrBlock: !Ref CidrBlock
+      AvailabilityZone: !Ref AvailabilityZone
+  securityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: "SecurityGroup for ES Kibana Instance"
+      VpcId: !Ref vpc
+      GroupName: !Join ['',['!Ref AWS::StackName','SG']]
+      SecurityGroupIngress:
+        - FromPort: '443'
+          IpProtocol: tcp
+          ToPort: '443'
+          CidrIp: !Ref SecurityGroupIngressIP
+Outputs:
+  DomainArn:
+    Value: !GetAtt ElasticsearchDomain.DomainArn
+  DomainEndpoint:
+    Value: !GetAtt ElasticsearchDomain.DomainEndpoint
+  SecurityGroupId:
+    Value: !Ref securityGroup
+  SubnetId:
+    Value: !Ref subnet

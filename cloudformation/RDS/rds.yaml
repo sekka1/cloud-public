@@ -1,0 +1,473 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  License: Apache-2.0
+Description: 'AWS CloudFormation Sample Template RDS_MySQL_With_Read_Replica: Sample
+  template showing how to create a highly-available, RDS DBInstance with a read replica.
+  **WARNING** This template creates an Amazon Relational Database Service database
+  instance and Amazon CloudWatch alarms. You will be billed for the AWS resources
+  used if you create a stack from this template.'
+Parameters:
+  VPCId:
+    Default: vpc-xxxx
+    Description: The VPC ID where this RDS instance is going into
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+  # AWSRegion:
+  #   Default: us-east-1
+  #   Description: AWS region
+  #   Type: String
+  #   MinLength: '1'
+  #   MaxLength: '64'
+  VPCNetwork:
+    Default: '10.120'
+    Description: The network portion of the IP range
+    Type: String
+    MinLength: '1'
+    MaxLength: '7'
+  Subnet1IP:
+    Default: .101.0/24
+    Description: The range portion of the subnet
+    Type: String
+    MinLength: '1'
+    MaxLength: '11'
+  Subnet1Zone:
+    Default: a
+    Description: The availability zone
+    Type: String
+    MinLength: '1'
+    MaxLength: '1'
+  Subnet2IP:
+    Default: .102.0/24
+    Description: The range portion of the subnet
+    Type: String
+    MinLength: '1'
+    MaxLength: '11'
+  Subnet2Zone:
+    Default: b
+    Description: The availability zone
+    Type: String
+    MinLength: '1'
+    MaxLength: '1'
+  RDSName:
+    Default: k8s-{tenant}-{environment}
+    Description: The RDS name
+    Type: String
+    MinLength: '0'
+    MaxLength: '64'
+  DBName:
+    Default: mobilem8
+    Description: The database name
+    Type: String
+    MinLength: '0'
+    MaxLength: '64'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
+  DBEngineFamily:
+    Description: DB Engine Name. Ex - mysql5.6 for MYSQL and aurora5.6 for AURORA
+    Type: String
+    Default: "mysql5.6"
+    AllowedValues: [mysql5.6, aurora5.6]
+  UseDBSnapShot:
+    Default: 'false'
+    Description: Specify to use a DB snapshot or not
+    Type: String
+  CreateDBReplica:
+    Default: 'false'
+    Description: Specify to create a Replica or not
+    Type: String
+  DBSnapshotARN:
+    Default: ''
+    Description: We can optionally create a RDS instance from a DB snapshot ARN
+    Type: String
+  DBUser:
+    Description: The database admin account username
+    Type: String
+    MinLength: '1'
+    MaxLength: '16'
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    ConstraintDescription: must begin with a letter and contain only alphanumeric
+      characters.
+  DBPassword:
+    NoEcho: 'true'
+    Description: The database admin account password
+    Type: String
+    MinLength: '1'
+    MaxLength: '41'
+    AllowedPattern: '[a-zA-Z0-9]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  DBAllocatedStorage:
+    Default: '5'
+    Description: The size of the database (Gb)
+    Type: Number
+    MinValue: '5'
+    MaxValue: '1024'
+    ConstraintDescription: must be between 5 and 1024Gb.
+  DBInstanceClass:
+    Description: The database instance type
+    Type: String
+    Default: db.t2.small
+    AllowedValues: [db.t1.micro, db.m1.small, db.m1.medium, db.m1.large, db.m1.xlarge,
+      db.m2.xlarge, db.m2.2xlarge, db.m2.4xlarge, db.m3.medium, db.m3.large, db.m3.xlarge,
+      db.m3.2xlarge, db.m4.large, db.m4.xlarge, db.m4.2xlarge, db.m4.4xlarge, db.m4.10xlarge,
+      db.r3.large, db.r3.xlarge, db.r3.2xlarge, db.r3.4xlarge, db.r3.8xlarge, db.r4.xlarge, db.m2.xlarge,
+      db.m2.2xlarge, db.m2.4xlarge, db.cr1.8xlarge, db.t2.micro, db.t2.small, db.t2.medium,
+      db.t2.large]
+    ConstraintDescription: must select a valid database instance type.
+  StorageEncrypted:
+    Description: Encrypt this RDS instance ?
+    Type: String
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+  EC2SecurityGroup:
+    Description: The EC2 security group that contains instances that need access to
+      the database
+    Default: default
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9\-]+'
+    ConstraintDescription: must be a valid security group name.
+  MultiAZ:
+    Description: Multi-AZ master database
+    Type: String
+    Default: 'false'
+    AllowedValues: ['true', 'false']
+    ConstraintDescription: must be true or false.
+  TagPurpose:
+    Description: Tag Purpose
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagProduct:
+    Description: Tag Product
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagEnvironment:
+    Description: Tag Environment name (dev, qa, demo, prod)
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagTenant:
+    Description: Tag Tenant name
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagCostCenter:
+    Description: Tag Cost Center
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+Conditions:
+  Use-Snapshot: !Equals [!Ref 'UseDBSnapShot', true]
+  CreateReplica: !Equals [!Ref 'CreateDBReplica', true ]
+  RDSDBParameterGroup: !Equals [!Ref DBEngineFamily, "mysql5.6"]
+  RDSDBClusterParameterGroup: !Equals [!Ref DBEngineFamily, "aurora5.6"]
+Resources:
+  RDSDBParameterGroup:
+    Type: AWS::RDS::DBParameterGroup
+    Condition: RDSDBParameterGroup
+    Properties:
+      Description: CloudFormation Parameter Group
+      Family: MySQL5.6
+      Parameters:
+        log_bin_trust_function_creators: 1
+        character_set_client:  "utf8"
+        character_set_connection: "utf8"
+        character_set_database: "utf8"
+        character_set_results: "utf8"
+        character_set_server: "utf8"
+        collation_connection: "utf8_general_ci"
+        collation_server: "utf8_general_ci"
+        lower_case_table_names: "1"
+  RDSDBClusterParameterGroup:
+    Type: AWS::RDS::DBClusterParameterGroup
+    Condition: RDSDBClusterParameterGroup
+    Properties:
+      Description: "Tenant DB Cluster Parameters Group"
+      Family: aurora5.6
+      Parameters:
+        character_set_client:  "utf8"
+        character_set_connection: "utf8"
+        character_set_database: "utf8"
+        character_set_results: "utf8"
+        character_set_server: "utf8"
+        collation_connection: "utf8_general_ci"
+        collation_server: "utf8_general_ci"
+        lower_case_table_names: "1"
+  DBSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPCId'
+      CidrBlock: !Join ['', [!Ref 'VPCNetwork', !Ref 'Subnet1IP']]
+      AvailabilityZone: !Join ['', [!Ref 'AWS::Region', !Ref 'Subnet1Zone']]
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  DBSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPCId'
+      CidrBlock: !Join ['', [!Ref 'VPCNetwork', !Ref 'Subnet2IP']]
+      AvailabilityZone: !Join ['', [!Ref 'AWS::Region', !Ref Subnet2Zone]]
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: 'RDS Subnet group'
+      SubnetIds:
+        - !Ref 'DBSubnet1'
+        - !Ref 'DBSubnet2'
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  DBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow all from VPC
+      VpcId: !Ref 'VPCId'
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '3306'
+        ToPort: '3306'
+        CidrIp: !Join ['', [!Ref 'VPCNetwork', '.0.0/0']]
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  MasterDBMYSQL:
+    Type: AWS::RDS::DBInstance
+    Condition: RDSDBParameterGroup
+    Properties:
+      DBName:
+        Fn::If:
+        - Use-Snapshot
+        - Ref: AWS::NoValue
+        - Ref: DBName
+      DBInstanceIdentifier: !Ref 'RDSName'
+      DBSnapshotIdentifier:
+        Fn::If:
+        - Use-Snapshot
+        - Ref: DBSnapshotARN
+        - Ref: AWS::NoValue
+      AllocatedStorage: !Ref 'DBAllocatedStorage'
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      DBParameterGroupName: !Ref 'RDSDBParameterGroup'
+      Engine: MySQL
+      EngineVersion: 5.6.37
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      MultiAZ: !Ref 'MultiAZ'
+      Tags:
+      - Key: Name
+        Value: Master Database
+      DBSubnetGroupName: !Ref 'DBSubnetGroup'
+      VPCSecurityGroups:
+      - !Ref 'DBSecurityGroup'
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+    DeletionPolicy: Snapshot
+  MasterDBAURORACluster:
+    DependsOn:  RDSDBClusterParameterGroup
+    Type: AWS::RDS::DBCluster
+    Condition: RDSDBClusterParameterGroup
+    Properties:
+      Engine: aurora
+      DatabaseName:
+        Fn::If:
+        - Use-Snapshot
+        - Ref: AWS::NoValue
+        - Ref: DBName
+      MasterUsername: !Ref 'DBUser'
+      MasterUserPassword: !Ref 'DBPassword'
+      BackupRetentionPeriod: "7"
+      PreferredBackupWindow: 01:00-02:00
+      PreferredMaintenanceWindow: mon:03:00-mon:04:00
+      DBSubnetGroupName: !Ref "DatabaseSubnetGroup"
+      DBClusterIdentifier: !Ref 'RDSName'
+      DBClusterParameterGroupName: !Ref 'RDSDBClusterParameterGroup'
+      StorageEncrypted: !Ref 'StorageEncrypted'
+      VpcSecurityGroupIds: [!Ref 'DBSecurityGroup']
+      Tags:
+      - Key: Name
+        Value: Master Database
+      DBSubnetGroupName: !Ref 'DBSubnetGroup'
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  MasterDBAURORA:
+    Type: AWS::RDS::DBInstance
+    Condition: RDSDBClusterParameterGroup
+    Properties:
+      DBClusterIdentifier: !Ref 'MasterDBAURORACluster'
+      DBInstanceIdentifier: !Ref 'RDSName'
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      Engine: aurora
+  ReplicaDBMYSQL:
+    Type: AWS::RDS::DBInstance
+    Condition: CreateReplica
+    Properties:
+      DBInstanceIdentifier: !Join ['', [!Ref 'RDSName', '-replica']]
+      SourceDBInstanceIdentifier: !Ref 'MasterDBMYSQL'
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      Tags:
+      - Key: Name
+        Value: Read Replica Database
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  ReplicaDBAURORA:
+    Type: AWS::RDS::DBInstance
+    Condition: CreateReplica
+    Properties:
+      DBInstanceIdentifier: !Join ['', [!Ref 'RDSName', '-replica']]
+      SourceDBInstanceIdentifier: !Ref 'MasterDBAURORA'
+      DBInstanceClass: !Ref 'DBInstanceClass'
+      Tags:
+      - Key: Name
+        Value: Read Replica Database
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+Outputs:
+  MasterEndpointMYSQL:
+    Condition: RDSDBParameterGroup
+    Description: Master's database endpoint
+    Value: !GetAtt [MasterDBMYSQL, Endpoint.Address]
+  MasterPortMYSQL:
+    Condition: RDSDBParameterGroup
+    Description: Master's database port
+    Value: !GetAtt [MasterDBMYSQL, Endpoint.Port]
+  ReplicaEndpointMYSQLMYSQL:
+    Condition: RDSDBParameterGroup
+    Description: Replication database endpoint
+    Condition: CreateReplica
+    Value: !GetAtt [ReplicaDBMYSQL, Endpoint.Address]
+  ReplicaPortMYSQL:
+    Condition: RDSDBParameterGroup
+    Description: Replication database port
+    Condition: CreateReplica
+    Value: !GetAtt [ReplicaDBMYSQL, Endpoint.Port]
+  MasterEndpointAURORA:
+    Condition: RDSDBClusterParameterGroup
+    Description: Master's database endpoint
+    Value: !GetAtt [MasterDBAURORA, Endpoint.Address]
+  MasterPortAURORA:
+    Condition: RDSDBClusterParameterGroup
+    Description: Master's database port
+    Value: !GetAtt [MasterDBAURORA, Endpoint.Port]
+  ReplicaEndpointAURORA:
+    Condition: RDSDBClusterParameterGroup
+    Description: Replication database endpoint
+    Condition: CreateReplica
+    Value: !GetAtt [ReplicaDBAURORA, Endpoint.Address]
+  ReplicaPortAURORA:
+    Condition: RDSDBClusterParameterGroup
+    Description: Replication database port
+    Condition: CreateReplica
+    Value: !GetAtt [ReplicaDBAURORA, Endpoint.Port]

@@ -1,0 +1,215 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  License: Apache-2.0
+Description: 'ElastiCache Cloudformation'
+Parameters:
+  VPCId:
+    Default: vpc-xxxx
+    Description: The VPC ID where this RDS instance is going into
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+  AWSRegion:
+    Default: us-east-1
+    Description: AWS region
+    Type: String
+    MinLength: '1'
+    MaxLength: '64'
+  VPCNetwork:
+    Default: '10.120'
+    Description: The network portion of the IP range
+    Type: String
+    MinLength: '1'
+    MaxLength: '7'
+  Subnet1IP:
+    Default: .101.0/24
+    Description: The range portion of the subnet
+    Type: String
+    MinLength: '1'
+    MaxLength: '11'
+  Subnet1Zone:
+    Default: a
+    Description: The availability zone
+    Type: String
+    MinLength: '1'
+    MaxLength: '1'
+  Subnet2IP:
+    Default: .102.0/24
+    Description: The range portion of the subnet
+    Type: String
+    MinLength: '1'
+    MaxLength: '11'
+  Subnet2Zone:
+    Default: b
+    Description: The availability zone
+    Type: String
+    MinLength: '1'
+    MaxLength: '1'
+  ClusterName:
+    Default: ElastiCache-cluster
+    Description: The name of the cluster. Max 20 characters.
+    Type: String
+    MinLength: '1'
+    MaxLength: '20'
+  CacheNodeType:
+    Description: The Cache Node Type
+    Type: String
+    Default: cache.t2.small
+    AllowedValues: [cache.t1.micro, cache.m1.small, cache.m1.medium, cache.m1.large, cache.m1.xlarge,
+      cache.m2.xlarge, cache.m2.2xlarge, cache.m2.4xlarge, cache.m3.medium, cache.m3.large, cache.m3.xlarge,
+      cache.m3.2xlarge, cache.m4.large, cache.m4.xlarge, cache.m4.2xlarge, cache.m4.4xlarge, cache.m4.10xlarge,
+      cache.r3.large, cache.r3.xlarge, cache.r3.2xlarge, cache.r3.4xlarge, cache.r3.8xlarge, cache.m2.xlarge,
+      cache.m2.2xlarge, cache.m2.4xlarge, cache.cr1.8xlarge, cache.t2.micro, cache.t2.small, cache.t2.medium,
+      cache.t2.large]
+    ConstraintDescription: must select a valid database instance type.
+  EC2SecurityGroup:
+    Description: The EC2 security group that contains instances that need access to
+      the database
+    Default: default
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9\-]+'
+    ConstraintDescription: must be a valid security group name.
+  TagPurpose:
+    Description: Tag Purpose
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagProduct:
+    Description: Tag Product
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagEnvironment:
+    Description: Tag Environment name (dev, qa, demo, prod)
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagTenant:
+    Description: Tag Tenant name
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+  TagCostCenter:
+    Description: Tag Cost Center
+    Type: String
+    AllowedPattern: '[a-zA-Z0-9-_]+'
+    ConstraintDescription: must contain only alphanumeric characters.
+Resources:
+  ElasticacheSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPCId'
+      CidrBlock: !Join ['', [!Ref 'VPCNetwork', !Ref 'Subnet1IP']]
+      AvailabilityZone: !Join ['', [!Ref 'AWSRegion', !Ref 'Subnet1Zone']]
+      Tags:
+      - Key: Name
+        Value: !Ref 'ClusterName'
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  ElasticacheSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref 'VPCId'
+      CidrBlock: !Join ['', [!Ref 'VPCNetwork', !Ref 'Subnet2IP']]
+      AvailabilityZone: !Join ['', [!Ref 'AWSRegion', !Ref Subnet2Zone]]
+      Tags:
+      - Key: Name
+        Value: !Ref 'ClusterName'
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  SubnetGroup:
+    Type: "AWS::ElastiCache::SubnetGroup"
+    Properties:
+      Description: "Cache Subnet Group"
+      SubnetIds:
+        - !Ref 'ElasticacheSubnet1'
+        - !Ref 'ElasticacheSubnet2'
+  ElasticacheSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow all from VPC
+      VpcId: !Ref 'VPCId'
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '11211'
+        ToPort: '11211'
+        CidrIp: !Join ['', [!Ref 'VPCNetwork', '.0.0/0']]
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+  ElasticacheCluster:
+    Type: "AWS::ElastiCache::CacheCluster"
+    Properties:
+      ClusterName: !Ref 'ClusterName'
+      AutoMinorVersionUpgrade: "true"
+      Engine: "memcached"
+      CacheNodeType: !Ref 'CacheNodeType'
+      NumCacheNodes: "1"
+      CacheSubnetGroupName: !Ref 'SubnetGroup'
+      VpcSecurityGroupIds:
+        -
+          Fn::GetAtt:
+            - "ElasticacheSecurityGroup"
+            - "GroupId"
+      Tags:
+      - Key: Purpose
+        Value:
+          Ref: TagPurpose
+      - Key: Product
+        Value:
+          Ref: TagProduct
+      - Key: Environment
+        Value:
+          Ref: TagEnvironment
+      - Key: Tenant
+        Value:
+          Ref: TagTenant
+      - Key: "Cost Center"
+        Value:
+          Ref: TagCostCenter
+Outputs:
+  ClusterEndpoint:
+    Description: endpoint
+    Value: !GetAtt [ElasticacheCluster, ConfigurationEndpoint.Address]
+  ClusterPort:
+    Description: port
+    Value: !GetAtt [ElasticacheCluster, ConfigurationEndpoint.Port]

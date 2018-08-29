@@ -1,0 +1,111 @@
+# Docs: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sqs-queues.html
+AWSTemplateFormatVersion: '2010-09-09'
+Metadata:
+  License: Apache-2.0
+Description: 'SQS Cloudformation'
+Parameters:
+  QueueName:
+    Default: my_queue
+    Type: String
+    Description: The name for your queue.  If this is a fifo queue, the QueueName must end with .fifo
+  ContentBasedDeduplication:
+    Default: "false"
+    Type: String
+    Description: For first-in-first-out (FIFO) queues, specifies whether to enable content-based deduplication.
+  DelaySeconds:
+    Default: 0
+    Type: Number
+    Description: The time in seconds that the delivery of all messages in the queue is delayed.
+  FifoQueue:
+    Default: false
+    Type: String
+    Description: Indicates whether this queue is a FIFO queue
+  # KmsMasterKeyId:
+  #   Default: ""
+  #   Type: String
+  #   Description: The ID of an AWS managed customer master key (CMK) for Amazon SQS or a custom CMK.
+  MaximumMessageSize:
+    Default: 262144
+    Type: Number
+    Description: The limit of how many bytes that a message can contain before Amazon SQS rejects it.
+  MessageRetentionPeriod:
+    Default: 345600
+    Type: Number
+    Description: The number of seconds that Amazon SQS retains a message. You can specify an integer value from 60 seconds (1 minute) to 1209600 seconds (14 days). The default value is 345600 seconds (4 days).
+  ReceiveMessageWaitTimeSeconds:
+    Default: 0
+    Type: Number
+    Description: Specifies the duration, in seconds, that the ReceiveMessage action call waits until a message is in the queue in order to include it in the response, as opposed to returning an empty response if a message isn't yet available.
+  VisibilityTimeout:
+    Default: 30
+    Type: Number
+    Description: The length of time during which a message will be unavailable after a message is delivered from the queue. This blocks other components from receiving the same message and gives the initial component time to process and delete the message from the queue.
+  # TagPurpose:
+  #   Description: Tag Purpose (tenantName-env)
+  #   Type: String
+  #   Default: ''
+  # TagProduct:
+  #   Description: Tag Product
+  #   Type: String
+  #   Default: ''
+  # TagEnvironment:
+  #   Description: Tag Environment name (dev, qa, demo, prod)
+  #   Type: String
+  #   Default: ''
+  # TagTenant:
+  #   Description: Tag Tenant name
+  #   Type: String
+  #   Default: ''
+  # TagCostCenter:
+  #   Description: Tag Cost Center
+  #   Type: String
+  #   Default: ''
+Resources:
+  SQSQueue:
+    Type: "AWS::SQS::Queue"
+    Properties:
+      QueueName: !Ref 'QueueName'
+      #ContentBasedDeduplication: !Ref 'ContentBasedDeduplication'
+      DelaySeconds: !Ref 'DelaySeconds'
+      FifoQueue: !Ref 'FifoQueue'
+      # KmsMasterKeyId: String
+      # KmsDataKeyReusePeriodSeconds: Integer
+      MaximumMessageSize: !Ref 'MaximumMessageSize'
+      MessageRetentionPeriod: !Ref 'MessageRetentionPeriod'
+      ReceiveMessageWaitTimeSeconds: !Ref 'ReceiveMessageWaitTimeSeconds'
+      # RedrivePolicy:
+      #   RedrivePolicy
+      VisibilityTimeout: !Ref 'VisibilityTimeout'
+      # Tags:
+      # - Key: Purpose
+      #   Value:
+      #     Ref: TagPurpose
+      # - Key: Product
+      #   Value:
+      #     Ref: TagProduct
+      # - Key: Environment
+      #   Value:
+      #     Ref: TagEnvironment
+      # - Key: Tenant
+      #   Value:
+      #     Ref: TagTenant
+      # - Key: "Cost Center"
+      #   Value:
+      #     Ref: TagCostCenter
+Outputs:
+  QueueURL:
+    Description: "URL of newly created SQS Queue"
+    Value:
+      Ref: "SQSQueue"
+  QueueARN:
+    Description: "ARN of newly created SQS Queue"
+    Value:
+      Fn::GetAtt:
+        - "SQSQueue"
+        - "Arn"
+  QueueName:
+    Description: "Name newly created SQS Queue"
+    Value:
+      Fn::GetAtt:
+        - "SQSQueue"
+        - "QueueName"
