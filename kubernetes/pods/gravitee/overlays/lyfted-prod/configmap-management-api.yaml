@@ -314,7 +314,7 @@ data:
           #secret:
 
     # The portal URL used in emails
-    #portalURL: http://portal-url.net
+    portalURL: https://developer.lyfted.co
 
   logback.xml: |-
     <?xml version="1.0" encoding="UTF-8"?>
