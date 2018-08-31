@@ -8,4 +8,4 @@ Go to: https://developer.lyfted.co/#!/registration
 
 and signup
 
-![sign up form]({{ "../pics/signup-form.png" | relative_url }})
+![Sign Up Form](https://raw.githubusercontent.com/sekka1/cloud-public/master/kubernetes/pods/gravitee/docs/signup-for-lyfted-api/pics/signup-form.png)
