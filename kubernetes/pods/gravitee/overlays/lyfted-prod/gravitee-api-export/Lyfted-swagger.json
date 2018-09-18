@@ -2,16 +2,16 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0",
-    "title": "Lyfted",
+    "title": "API",
     "description": "TODO: Add Description"
   },
-  "host": "app.lyfted.co",
+  "host": "api.lyfted.co",
   "basePath": "/",
   "securityDefinitions": {
     "auth": {
       "type": "oauth2",
       "flow": "implicit",
-      "authorizationUrl": "https://app.lyfted.co",
+      "authorizationUrl": "https://api.lyfted.co",
       "scopes": {},
       "x-skip-client-authentication": false
     }
