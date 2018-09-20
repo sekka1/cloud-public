@@ -1,5 +1,5 @@
 HELM_BINARY?=helm
-KUBE_CONFIG_FILE?=~/.kube/config
+KUBECONFIG?=~/.kube/config
 KUBE_NAMESPACE?=spinnaker
 
 BASE_PATH=.
