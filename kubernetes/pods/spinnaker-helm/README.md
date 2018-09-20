@@ -41,7 +41,7 @@ export KUBE_NAMESPACE=spinnaker
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 
 helm install \
---version 0.6.0 \
+--version 1.1.3 \
 --name ${KUBE_NAMESPACE}-spinnaker \
 --namespace ${KUBE_NAMESPACE} \
 --values ./values.yaml \
