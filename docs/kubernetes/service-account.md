@@ -54,3 +54,28 @@ metadata:
   name: my-role-name
   namespace: my-namespace
 ```
+
+# Using a ServiceAccount
+The above simply creates a service account with the permissions that you want,
+now you have to give this service account to a resource like a Deployment or Statefulset
+to use it.
+
+In the Deployment or Statefulset, you add in the name of the service account into
+the `spec.template.spec` section:
+
+```yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      name: prometheus
+    spec:
+      serviceAccountName: my-role-name
+```
