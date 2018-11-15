@@ -1,0 +1,133 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertmanager-config
+data:
+  config.yml: |-
+    global:
+      # The smarthost and SMTP sender used for mail notifications.
+      smtp_smarthost: 'localhost:25'
+      smtp_from: 'alertmanager@example.org'
+
+    # The root route on which each incoming alert enters.
+    route:
+      # The root route must not have any matchers as it is the entry point for
+      # all alerts. It needs to have a receiver configured so alerts that do not
+      # match any of the sub-routes are sent to someone.
+      receiver: 'null'
+
+      # The labels by which incoming alerts are grouped together. For example,
+      # multiple alerts coming in for cluster=A and alertname=LatencyHigh would
+      # be batched into a single group.
+      group_by: ['alertname', 'job']
+
+      # When a new group of alerts is created by an incoming alert, wait at
+      # least 'group_wait' to send the initial notification.
+      # This way ensures that you get multiple alerts for the same group that start
+      # firing shortly after another are batched together on the first
+      # notification.
+      group_wait: 30s
+
+      # When the first notification was sent, wait 'group_interval' to send a batch
+      # of new alerts that started firing for that group.
+      group_interval: 5m
+
+      # If an alert has successfully been sent, wait 'repeat_interval' to
+      # resend them.
+      repeat_interval: 3h
+
+      routes:
+      - match:
+          alertname: DeadMansSwitch
+        receiver: 'null'
+
+      - match:
+          environment: prod-1
+        receiver: slack
+        continue: true
+
+      # - match:
+      #     severity: critical
+      #     environment: preview
+      #   receiver: pagerduty_high
+      #   continue: false
+      #
+      # - match:
+      #     severity: critical
+      #     environment: stage
+      #   receiver: pagerduty_high
+      #   continue: false
+      #
+      # - match:
+      #     severity: critical
+      #     environment: prod
+      #   receiver: pagerduty_high
+      #   continue: false
+
+    # Inhibition rules allow to mute a set of alerts given that another alert is
+    # firing.
+    # We use this to mute any warning-level notifications if the same alert is
+    # already critical.
+    inhibit_rules:
+    - source_match:
+        severity: 'critical'
+      target_match:
+        severity: 'warning'
+      # Apply inhibition if the alertname is the same.
+      equal: ['alertname']
+
+    receivers:
+    - name: 'null'
+
+    - name: 'slack'
+      slack_configs:
+      - send_resolved: true
+        api_url: 'https://hooks.slack.com/services/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'
+        channel: '#kube-saas-prod-1'
+        #icon_emoji: '{{ if eq .Status "firing" }}:bangbang:{{ else }}:ok:{{ end }}'
+        title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+        #title_link: '{{ .CommonAnnotations.runbook }}'
+        #text: '{{ if ne .CommonAnnotations.runbook "" }}<{{ .CommonAnnotations.runbook }}|:information_source:>{{end}}<{{ (index .Alerts 0).GeneratorURL }}|:chart_with_upwards_trend:> {{ if eq .Status "firing" }}{{ .CommonAnnotations.description }}{{ end }}'
+        #fallback: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+        #title: '{{ .CommonAnnotations.summary }}'
+        #text: '{{ .CommonAnnotations.description }}'
+        text: >-
+          {{ range .Alerts }}
+              Summary: {{ .Annotations.summary }}
+              Description: {{ .Annotations.description }}
+              Details:
+              {{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+              {{ end }}
+          {{ end }}
+    #
+    # - name: 'slack_production'
+    #   slack_configs:
+    #   - send_resolved: true
+    #     api_url: '${PROMETHEUS_SLACK_WEBHOOK}'
+    #     channel: '#alerts'
+    #     icon_emoji: '{{ if eq .Status "firing" }}:bangbang:{{ else }}:ok:{{ end }}'
+    #     title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+    #     title_link: '{{ .CommonAnnotations.runbook }}'
+    #     text: '{{ if ne .CommonAnnotations.runbook "" }}<{{ .CommonAnnotations.runbook }}|:information_source:>{{end}}<{{ (index .Alerts 0).GeneratorURL }}|:chart_with_upwards_trend:> {{ if eq .Status "firing" }}{{ .CommonAnnotations.description }}{{ end }}'
+    #     fallback: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+    #
+    # - name: 'slack_staging'
+    #   slack_configs:
+    #   - send_resolved: true
+    #     api_url: '${PROMETHEUS_SLACK_WEBHOOK}'
+    #     channel: '#alerts_staging'
+    #     icon_emoji: '{{ if eq .Status "firing" }}:bangbang:{{ else }}:ok:{{ end }}'
+    #     title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+    #     title_link: '{{ .CommonAnnotations.runbook }}'
+    #     text: '{{ if ne .CommonAnnotations.runbook "" }}<{{ .CommonAnnotations.runbook }}|:information_source:>{{end}}<{{ (index .Alerts 0).GeneratorURL }}|:chart_with_upwards_trend:> {{ if eq .Status "firing" }}{{ .CommonAnnotations.description }}{{ end }}'
+    #     fallback: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}'
+
+    # - name: 'pagerduty_high'
+    #   pagerduty_configs:
+    #   - service_key: ${PROMETHEUS_PAGERDUTY_SERVICE_KEY}
+    #     description: '{{ .CommonAnnotations.summary }}'
+    #     client: 'Alertmanager'
+    #     client_url: '{{ .CommonAnnotations.runbook }}'
+    #     details: { note : '{{ .CommonAnnotations.description }}'}
+    #     send_resolved: true

@@ -1,0 +1,54 @@
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+spec:
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+      name: node-exporter
+    spec:
+      containers:
+      - name: node-exporter
+        image: prom/node-exporter:v0.15.2
+        args: [
+          "--path.procfs=/host/proc",
+          "--path.sysfs=/host/sys",
+          #"--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)",
+          "- --collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/overlay)($|/)",
+        ]
+        ports:
+        - name: scrape
+          containerPort: 9100
+          hostPort: 9100
+        volumeMounts:
+        - name: procdir
+          mountPath: /host/proc
+          readOnly: true
+        - name: sysdir
+          mountPath: /host/sys
+          readOnly: true
+        - name: rootfs
+          mountPath: /rootfs
+          readOnly: true
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 25m
+            memory: 10Mi
+      hostNetwork: true
+      hostPID: true
+      volumes:
+      - name: procdir
+        hostPath:
+          path: /proc
+      - name: sysdir
+        hostPath:
+          path: /sys
+      - name: rootfs
+        hostPath:
+          path: /

@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1beta2
+# Kubernetes versions after 1.9.0 should use apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      name: alertmanager
+      labels:
+        app: alertmanager
+    spec:
+      nodeSelector:
+        k8s.info/isSpot: "true"
+        k8s.info/hasPublicIP: "false"
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:v0.11.0
+        args: [
+          '-config.file=/etc/alertmanager/config.yml',
+          '-storage.path=/alertmanager',
+          '-web.external-url=http://prometheus.prod-1.infra.devops.bot/alertmanager',
+        ]
+        ports:
+        - name: alertmanager
+          containerPort: 9093
+        volumeMounts:
+        - name: config
+          mountPath: /etc/alertmanager
+        - name: alertmanager
+          mountPath: /alertmanager
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+          requests:
+            cpu: 25m
+            memory: 10Mi
+      - name: configmap-reload
+        image: quay.io/coreos/configmap-reload:v0.0.1 # https://github.com/jimmidyson/configmap-reload
+        args: [
+          "-webhook-url=http://localhost:9093/alertmanager/-/reload",
+          "-volume-dir=/etc/alertmanager",
+        ]
+        volumeMounts:
+        - name: config
+          mountPath: /etc/alertmanager
+          readOnly: true
+        resources:
+          limits:
+            cpu: 5m
+            memory: 10Mi
+      volumes:
+      - name: config
+        configMap:
+          name: alertmanager-config
+      - name: alertmanager
+        emptyDir: {}

@@ -1,0 +1,11 @@
+- name: alertmanager.rules
+  rules:
+  - alert: FailedReload
+    expr: alertmanager_config_last_reload_successful == 0
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      description: Reloading Alertmanager's configuration has failed for {{ $labels.namespace
+        }}/{{ $labels.instance}}.
+      summary: Alertmanager configuration reload has failed

@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1beta2
+# Kubernetes versions after 1.9.0 should use apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      name: prometheus
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus
+      terminationGracePeriodSeconds: 300
+      nodeSelector:
+        k8s.info/isSpot: "true"
+        k8s.info/hasPublicIP: "false"
+      tolerations:
+      - effect: NoSchedule
+        key: application
+        operator: Equal
+        value: highmemory
+
+      initContainers:
+      - name: init-directory
+        image: busybox
+        imagePullPolicy: Always
+        command:
+        - "sh"
+        - "-c"
+        - "mkdir -p /data/prometheus-data; chmod -R 777 /data/prometheus-data;"
+        # resources:
+        #   limits:
+        #     cpu: 100m
+        #     memory: 50mi
+        #   requests:
+        #     cpu: 10m
+        #     memory: 25Mi
+        volumeMounts:
+        - name: datadir
+          mountPath: /data
+
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.3.1
+        args: [
+          "--config.file=/etc/prometheus/config/config.yml",
+          "--web.external-url=http://prometheus.prod-1.infra.devops.bot",
+          "--web.enable-lifecycle",
+          "--storage.tsdb.path=/data/prometheus-data",
+          "--storage.tsdb.retention=60d",
+
+        ]
+        ports:
+        - name: web
+          containerPort: 9090
+        volumeMounts:
+        - name: config
+          mountPath: /etc/prometheus/config
+        - name: rules
+          mountPath: /etc/prometheus/rules
+        - name: datadir
+          mountPath: /data
+        resources:
+          limits:
+            cpu: 8000m
+            memory: 8000Mi
+          requests:
+            cpu: 250m
+            memory: 250Mi
+      - name: configmap-reload
+        image: quay.io/coreos/configmap-reload:v0.0.1 # https://github.com/jimmidyson/configmap-reload
+        args: [
+          "-webhook-url=http://localhost:9090/-/reload",
+          "-volume-dir=/etc/prometheus/config",
+          "-volume-dir=/etc/prometheus/rules",
+        ]
+        volumeMounts:
+        - name: config
+          mountPath: /etc/prometheus/config
+          readOnly: true
+        - name: rules
+          mountPath: /etc/prometheus/rules
+          readOnly: true
+        resources:
+          limits:
+            cpu: 5m
+            memory: 10Mi
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus-config
+      - name: rules
+        configMap:
+          name: prometheus-rules
+      - name: datadir
+        persistentVolumeClaim:
+          claimName: efs-prometheus

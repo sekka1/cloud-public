@@ -1,0 +1,4 @@
+# This has to be named aaaaa because it has to be the first one that is
+# cat out during the deployment to create the config maps for all of the
+# rules.
+groups:
