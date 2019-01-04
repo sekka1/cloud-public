@@ -1,0 +1,54 @@
+# Source: https://github.com/kubernetes-sigs/aws-iam-authenticator/blob/master/example.yaml
+#
+# Copyright 2017 by the contributors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# This is an example of how to deploy Heptio Authenticator for AWS.
+#
+# To use this, you'll at least need to edit the role ARNs in the ConfigMap. You
+# may also need to rework other bits to work in your cluster (e.g., node labels).
+#
+# This was tested with a kubeadm-installed cluster.
+#
+# Source: https://github.com/kubernetes/kops/blob/master/docs/authentication.md#aws-iam-authenticator
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: kube-system
+  name: aws-iam-authenticator
+  labels:
+    k8s-app: aws-iam-authenticator
+data:
+  config.yaml: |
+    # a unique-per-cluster identifier to prevent replay attacks
+    # (good choices are a random token or a domain name that will be unique to your cluster)
+    clusterID: {{ .kopsName }}
+    server:
+      mapRoles:
+      # statically map arn:aws:iam::{{ .regionDefaults.awsAccountNumber }}:role/KubernetesAdmin to a cluster admin
+      - roleARN: arn:aws:iam::{{ .regionDefaults.awsAccountNumber }}:role/KubernetesAdmin
+        username: kubernetes-admin
+        groups:
+        - system:masters
+      - roleARN: arn:aws:iam::{{ .regionDefaults.awsAccountNumber }}:role/Engineering
+        username: kubernetes-admin
+        groups:
+        - developer
+      mapUsers:
+      # map user IAM user Alice in 000000000000 to user "alice" in "system:masters"
+      # - userARN: arn:aws:iam::{{ .regionDefaults.awsAccountNumber }}:user/first.last-name-example
+      #   username: first.last-name-example
+      #   groups:
+      #   - developer

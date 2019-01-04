@@ -1,0 +1,236 @@
+kopsName: {{ .cluster_name.value }}
+s3BucketName: devops.bot-dev-kops-state
+kubernetesVersion: 1.10.11
+awsRegion: {{ .region.value }}
+vpc: {{ .vpc_id.value }}
+sshKeyName: {{ .regionDefaults.ec2KeyPair }}
+
+
+availabilityZonesEtcd:
+- a
+- b
+- c
+
+availabilityZonesKubeMaster:
+- a
+- b
+- c
+
+availabilityZonesAll:
+- a
+- b
+- c
+
+enableAwsAuthentication: true
+
+enableMasterSubnets: true
+enableWorkerSubnets: true
+enablePublicSubnets: true
+enableUtilitySubnets: true
+
+kubernetesApiAccess:
+# Office Subnets
+- 192.168.128.0/21
+- 192.168.200.0/24
+
+kubernetesSSHAccess:
+- {{ .regionDefaults.bastionHost }}
+
+etcd:
+  version: 3.2.17
+
+networkCIDR: {{ .vpc_cidr.value }}
+
+enableSpotInstanceGroup1: false
+enableOnDemandGroup1: true
+enableInfrastructureGroup1: false
+enableJenkinsGroup1: false
+
+networks:
+  utility:
+  - name: {{ index .availability_zones.value 0 }}-utility
+    type: Utility
+    zone: {{ index .availability_zones.value 0 }}
+    id: {{ index .utility_subnets.value 0 }}
+    egress: {{ index .nat_gateways.value 0 }}
+  - name: {{ index .availability_zones.value 1 }}-utility
+    type: Utility
+    zone: {{ index .availability_zones.value 1 }}
+    id: {{ index .utility_subnets.value 1 }}
+    egress: {{ index .nat_gateways.value 1 }}
+  - name: {{ index .availability_zones.value 2 }}-utility
+    type: Utility
+    zone: {{ index .availability_zones.value 2 }}
+    id: {{ index .utility_subnets.value 2 }}
+    egress: {{ index .nat_gateways.value 2 }}
+  public:
+  - name: {{ index .availability_zones.value 0 }}-public
+    type: Utility
+    zone: {{ index .availability_zones.value 0 }}
+    id: {{ index .public_subnets.value 0 }}
+  - name: {{ index .availability_zones.value 1 }}-public
+    type: Utility
+    zone: {{ index .availability_zones.value 1 }}
+    id: {{ index .public_subnets.value 1 }}
+  - name: {{ index .availability_zones.value 2 }}-public
+    type: Utility
+    zone: {{ index .availability_zones.value 2 }}
+    id: {{ index .public_subnets.value 2 }}
+  master:
+  - name: {{ index .availability_zones.value 0 }}-master
+    type: Private
+    zone: {{ index .availability_zones.value 0 }}
+    id: {{ index .master_subnets.value 0 }}
+    egress: {{ index .nat_gateways.value 0 }}
+  - name: {{ index .availability_zones.value 1 }}-master
+    type: Private
+    zone: {{ index .availability_zones.value 1 }}
+    id: {{ index .master_subnets.value 1 }}
+    egress: {{ index .nat_gateways.value 1 }}
+  - name: {{ index .availability_zones.value 2 }}-master
+    type: Private
+    zone: {{ index .availability_zones.value 2 }}
+    id: {{ index .master_subnets.value 2 }}
+    egress: {{ index .nat_gateways.value 2 }}
+  worker:
+  - name: {{ index .availability_zones.value 0 }}-worker
+    type: Private
+    zone: {{ index .availability_zones.value 0 }}
+    id: {{ index .worker_subnets.value 0 }}
+    egress: {{ index .nat_gateways.value 0 }}
+  - name: {{ index .availability_zones.value 1 }}-worker
+    type: Private
+    zone: {{ index .availability_zones.value 1 }}
+    id: {{ index .worker_subnets.value 1 }}
+    egress: {{ index .nat_gateways.value 1 }}
+  - name: {{ index .availability_zones.value 2 }}-worker
+    type: Private
+    zone: {{ index .availability_zones.value 2 }}
+    id: {{ index .worker_subnets.value 2 }}
+    egress: {{ index .nat_gateways.value 2 }}
+
+enableadditionalPolicies: true
+additionalPolicies:
+    node: |
+      [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "ecr:BatchCheckLayerAvailability",
+            "ecr:BatchGetImage",
+            "ecr:DescribeRepositories",
+            "ecr:GetAuthorizationToken",
+            "ecr:GetDownloadUrlForLayer",
+            "ecr:GetRepositoryPolicy",
+            "ecr:ListImages"
+          ],
+          "Resource": [
+            "*"
+          ]
+        },
+        {
+          "Action": [
+            "kms:Decrypt"
+          ],
+          "Effect": "Allow",
+          "Resource": "{{ .regionDefaults.credstashKMSKey }}"
+        },
+        {
+          "Action": [
+            "dynamodb:GetItem",
+            "dynamodb:Query",
+            "dynamodb:Scan"
+          ],
+          "Effect": "Allow",
+          "Resource": "arn:aws:dynamodb:{{ .regionDefaults.region }}:{{ .regionDefaults.awsAccountNumber }}:table/*"
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "route53:ChangeResourceRecordSets"
+          ],
+          "Resource": [
+            "arn:aws:route53:::hostedzone/*"
+          ]
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "route53:ListHostedZones",
+            "route53:ListResourceRecordSets"
+          ],
+          "Resource": [
+            "*"
+          ]
+        },
+        {
+          "Sid": "kopsK8sEC2MasterPermsTaggedResources",
+          "Effect": "Allow",
+          "Action": [
+            "ec2:AttachVolume",
+            "ec2:AuthorizeSecurityGroupIngress",
+            "ec2:DeleteRoute",
+            "ec2:DeleteSecurityGroup",
+            "ec2:DeleteVolume",
+            "ec2:DetachVolume",
+            "ec2:RevokeSecurityGroupIngress"
+          ],
+          "Resource": [
+            "*"
+          ],
+          "Condition": {
+            "StringEquals": {
+              "ec2:ResourceTag/KubernetesCluster": "{{ .cluster_name.value }}"
+            }
+          }
+        },
+        {
+          "Effect": "Allow",
+          "Action": [
+            "autoscaling:DescribeAutoScalingGroups",
+            "autoscaling:DescribeAutoScalingInstances",
+            "autoscaling:DescribeTags",
+            "autoscaling:SetDesiredCapacity",
+            "autoscaling:TerminateInstanceInAutoScalingGroup"
+          ],
+          "Resource": "*"
+        }
+      ]
+
+instanceGroups:
+  kubeMaster:
+    # CoreOS: https://github.com/kubernetes/kops/blob/06b0111251ab87861e57dbf5f8d36f02e84af04d/docs/images.md#coreos
+    # releases: https://coreos.com/releases/
+    image: {{ .instanceGroup.master.image }}
+    machineType: {{ .instanceGroup.master.machineType }}
+    maxSize: {{ .instanceGroup.master.maxSize }}
+    minSize: {{ .instanceGroup.master.minSize }}
+    cloudLabels:
+      CostCenter: kubernetes-saas
+      Owner: kubernetes
+      Project: cloud
+      Purpose: kubernetes-master
+    nodeLabels:
+      # kops.k8s.io/my-label: a-label
+  workerGroup:
+    # CoreOS: https://github.com/kubernetes/kops/blob/06b0111251ab87861e57dbf5f8d36f02e84af04d/docs/images.md#coreos
+    # releases: https://coreos.com/releases/
+    image: {{ .instanceGroup.worker.image }}
+    machineType: {{ .instanceGroup.worker.machineType }}
+    maxSize: {{ .instanceGroup.worker.maxSize }}
+    minSize: {{ .instanceGroup.worker.minSize }}
+    cloudLabels:
+      CostCenter: kubernetes-saas
+      Owner: kubernetes
+      Project: cloud
+      Purpose: kubernetes-worker-node
+      # https://github.com/kubernetes/autoscaler/issues/511#issuecomment-354616866
+      k8s.io/cluster-autoscaler/node-template/label/{{ .cluster_name.value }}/role: scale-zero
+    nodeLabels:
+      {{ .cluster_name.value }}/role: scale-zero
+      k8s.info/instanceType: {{ .instanceGroup.worker.machineType }}
+      k8s.info/hasPublicIP: "false"
+    taints:
+      enable: false
+      items:
+      - application=generic:NoSchedule
