@@ -95,3 +95,9 @@ https://petstore.swagger.io/v2/swagger.json
 ```
 htpasswd -bnBC 10 "" password | tr -d ':\n'
 ```
+
+# Kustomize usage
+
+```
+kustomize build overlays/lyfted-prod/
+```

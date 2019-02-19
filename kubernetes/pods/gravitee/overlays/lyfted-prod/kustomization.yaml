@@ -1,7 +1,7 @@
 bases:
 - ../../base
 
-namespace: lyfted-prod
+namespace: prod-lyfted
 
 patches:
 - deployment-gateway.yaml

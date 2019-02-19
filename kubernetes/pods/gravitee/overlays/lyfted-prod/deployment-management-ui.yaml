@@ -25,6 +25,17 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: gravitee-management-ui
+  annotations:
+    # Use the classic nginx load balancer with the classic ELB
+    #kubernetes.io/ingress.class: "nginx"
+    # Setup Let's Encrypt Certificates
+    # kubernetes.io/tls-acme: "true"
+
+    # Kong Ingress
+    kubernetes.io/ingress.class: kong-prod-k8sbot
+    certmanager.k8s.io/cluster-issuer: kong-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+    configuration.konghq.com: gravitee-ui-ingress-cert-manager
 spec:
   tls:
   - hosts:

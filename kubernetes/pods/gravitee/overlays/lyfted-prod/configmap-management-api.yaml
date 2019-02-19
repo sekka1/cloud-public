@@ -260,9 +260,9 @@ data:
       enabled: true
       host: smtp.gmail.com
       port: 587
-      from: @gmail.com
-      username: @gmail.com
-      password:
+      from: mmj.lyfted@gmail.com
+      username: mmj.lyfted@gmail.com
+      password: 
       properties:
         auth: true
         starttls.enable: true

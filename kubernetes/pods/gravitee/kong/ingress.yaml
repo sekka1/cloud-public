@@ -1,0 +1,24 @@
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongIngress
+metadata:
+  name: gravitee-gateway-ingress-cert-manager
+route:
+  preserve_host: true
+  strip_path: false
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongIngress
+metadata:
+  name: gravitee-api-ingress-cert-manager
+route:
+  preserve_host: true
+  strip_path: false
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongIngress
+metadata:
+  name: gravitee-ui-ingress-cert-manager
+route:
+  preserve_host: true
+  strip_path: false
