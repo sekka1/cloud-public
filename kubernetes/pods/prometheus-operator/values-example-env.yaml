@@ -1,0 +1,169 @@
+
+prometheus-operator:
+
+  ## Deploy a Prometheus instance
+  ##
+  prometheus:
+
+    ## Configuration for Alertmanager service
+    ##
+    # service:
+    #   annotations:
+    #     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:354114410416:certificate/7385702b-7ef5-4233-b5c4-ab48a88eef58
+    #     service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+    #     service.beta.kubernetes.io/aws-load-balancer-internal: "0.0.0.0/0"
+    #     external-dns.alpha.kubernetes.io/hostname: "prometheus.example.com"
+
+      ## Service type
+      ##
+      # type: LoadBalancer
+
+    ## Settings affecting prometheusSpec
+    ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#prometheusspec
+    ##
+    prometheusSpec:
+
+      ## External URL at which Prometheus will be reachable.
+      ##
+      externalUrl: "https://example.com:9090"
+
+      ## Resource limits & requests
+      ##
+      resources:
+        requests:
+          memory: 1000Mi
+
+      ## Prometheus StorageSpec for persistent data
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/user-guides/storage.md
+      ##
+      storageSpec:
+       volumeClaimTemplate:
+         spec:
+           # storageClassName: gluster
+           accessModes: ["ReadWriteOnce"]
+           resources:
+             requests:
+               storage: 10Gi
+         selector: {}
+
+  ## Configuration for alertmanager
+  ## ref: https://prometheus.io/docs/alerting/alertmanager/
+  ##
+  alertmanager:
+
+    ## Alertmanager configuration directives
+    ## ref: https://prometheus.io/docs/alerting/configuration/#configuration-file
+    ##      https://prometheus.io/webtools/alerting/routing-tree-editor/
+    ##
+    config:
+      route:
+        receiver: 'slack-tests'
+        routes:
+        - match:
+            alertname: DeadMansSwitch
+          receiver: 'null'
+        # Couldnt find the config to make this configurable, so just turning it off for now
+        # https://github.com/coreos/prometheus-operator/issues/2171#issuecomment-465525316
+        - match_re:
+            alertname: CPUThrottlingHigh
+            container_name: "prometheus-config-reloader|rules-configmap-reloader"
+          receiver: 'null'
+        - match_re:
+            severity: critical|page|alert
+          receiver: slack-critical
+          continue: false
+        - match:
+            severity: warning
+          receiver: slack-warning
+          continue: false
+
+      receivers:
+      - name: 'null'
+
+      - name: 'slack-tests'
+        slack_configs:
+          - send_resolved: true
+            username: 'prometheus-operator-dev'
+            channel: '#devops-tests'
+            api_url: 'https://hooks.slack.com/services/xxxxxxxx/xxxx'
+            title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
+            title_link: "https://alertmanager.example.com:9093"
+            text: >-
+              {{ range .Alerts }}
+                  Annotations:
+                  {{ range $key, $value := .Annotations }} - {{ $key }}: {{ $value }}
+                  {{ end }}
+                  Details:
+                  {{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+                  {{ end }}
+              {{ end }}
+
+      - name: 'slack-critical'
+        slack_configs:
+          - send_resolved: true
+            username: 'prometheus-operator-dev'
+            channel: 'devops-alerts'
+            api_url: 'https://hooks.slack.com/services/xxxxxxxx/xxxx'
+            title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
+            title_link: "https://alertmanager.example.com:9093"
+            text: >-
+              {{ range .Alerts }}
+                  Annotations:
+                  {{ range $key, $value := .Annotations }} - {{ $key }}: {{ $value }}
+                  {{ end }}
+                  Details:
+                  {{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+                  {{ end }}
+              {{ end }}
+
+      - name: 'slack-warning'
+        slack_configs:
+          - send_resolved: true
+            username: 'prometheus-operator-dev'
+            channel: 'devops-warnings'
+            api_url: 'https://hooks.slack.com/services/xxxxxxxx/xxxx'
+            title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
+            title_link: "https://alertmanager.example.com:9093"
+            text: >-
+              {{ range .Alerts }}
+                  Annotations:
+                  {{ range $key, $value := .Annotations }} - {{ $key }}: {{ $value }}
+                  {{ end }}
+                  Details:
+                  {{ range .Labels.SortedPairs }} - {{ .Name }} = {{ .Value }}
+                  {{ end }}
+              {{ end }}
+
+    ## Configuration for Alertmanager service
+    ##
+    # service:
+    #   annotations:
+    #     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:354114410416:certificate/7385702b-7ef5-4233-b5c4-ab48a88eef58
+    #     service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "3600"
+    #     service.beta.kubernetes.io/aws-load-balancer-internal: "0.0.0.0/0"
+    #     external-dns.alpha.kubernetes.io/hostname: "alertmanager.example.com"
+
+      ## Service type
+      ##
+      # type: LoadBalancer
+
+    # alertmanagerSpec:
+    #   externalUrl: https://example.com:9093
+
+  grafana:
+    ingress:
+      enabled: false
+
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: grafana.example.com
+        kubernetes.io/ingress.class: nginx
+        certmanager.k8s.io/cluster-issuer: prod
+        certmanager.k8s.io/acme-http01-edit-in-place: "true"
+
+      hosts:
+      - grafana.example.com
+
+      tls:
+      - secretName: grafana-general-tls
+        hosts:
+        - grafana.example.com
