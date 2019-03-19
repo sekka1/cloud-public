@@ -62,11 +62,11 @@ prometheus-operator:
         - match:
             alertname: DeadMansSwitch
           receiver: 'null'
-        # Couldnt find the config to make this configurable, so just turning it off for now
-        # https://github.com/coreos/prometheus-operator/issues/2171#issuecomment-465525316
+        # Silencing these alarms because it is from the test namespace
         - match_re:
-            alertname: CPUThrottlingHigh
-            container_name: "prometheus-config-reloader|rules-configmap-reloader"
+            # alertname: CPUThrottlingHigh
+            # container_name: "prometheus-config-reloader|rules-configmap-reloader"
+            namespace: ibm-system|dev-k8sbot-test-pods
           receiver: 'null'
         - match_re:
             severity: critical|page|alert
