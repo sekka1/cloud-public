@@ -72,7 +72,7 @@ prometheus-operator:
         # https://github.com/coreos/prometheus-operator/issues/2171#issuecomment-465525316
         - match_re:
             alertname: CPUThrottlingHigh
-            container_name: "prometheus-config-reloader|rules-configmap-reloader"
+            container_name: "prometheus-config-reloader|config-reloader|rules-configmap-reloader|metrics-server-nanny|metrics-server|heapster-nanny|heapster|default-http-backend"
           receiver: 'null'
         - match_re:
             severity: critical|page|alert
