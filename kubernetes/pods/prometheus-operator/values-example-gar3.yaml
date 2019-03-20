@@ -74,6 +74,12 @@ prometheus-operator:
             alertname: CPUThrottlingHigh
             container_name: "prometheus-config-reloader|config-reloader|rules-configmap-reloader|metrics-server-nanny|metrics-server|heapster-nanny|heapster|default-http-backend"
           receiver: 'null'
+        # GKE does not have the kube-* pods running in the kube-system namespace.  Silencing them.
+        - match_re:
+            # alertname: CPUThrottlingHigh
+            # container_name: "prometheus-config-reloader|rules-configmap-reloader"
+            alertname: KubeControllerManagerDown|KubeSchedulerDown
+          receiver: 'null'
         - match_re:
             severity: critical|page|alert
           receiver: slack-critical
