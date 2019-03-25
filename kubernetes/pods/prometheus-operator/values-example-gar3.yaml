@@ -46,6 +46,14 @@ prometheus-operator:
                storage: 10Gi
          selector: {}
 
+      ## The remote_write spec configuration for Prometheus.
+      ## ref: https://github.com/coreos/prometheus-operator/blob/master/Documentation/api.md#remotewritespec
+      # remoteWrite:
+      #   - url: https://prometheus-us-central1.grafana.net/api/prom/push
+          # basic_auth:
+          #   username: 6482
+          #   password: xxxx
+
   ## Configuration for alertmanager
   ## ref: https://prometheus.io/docs/alerting/alertmanager/
   ##
@@ -80,6 +88,10 @@ prometheus-operator:
             # container_name: "prometheus-config-reloader|rules-configmap-reloader"
             alertname: KubeControllerManagerDown|KubeSchedulerDown
           receiver: 'null'
+        # Silencing CPU/memory over commit since it is a little chatty and we are over commiting
+        - match_re:
+            alertname: KubeCPUOvercommit|KubeMemOvercommit
+          receiver: 'null'
         - match_re:
             severity: critical|page|alert
           receiver: slack-critical
@@ -97,7 +109,7 @@ prometheus-operator:
           - send_resolved: true
             username: 'prometheus-operator-gar3'
             channel: 'prometheus-operator'
-            api_url: 'https://hooks.slack.com/services/xxxxxxxxxxxxxxxxxxxxxxx'
+            api_url: 'https://hooks.slack.com/services/xxx'
             title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
             title_link: "https://alertmanager.example.com:9093"
             text: >-
@@ -115,7 +127,7 @@ prometheus-operator:
           - send_resolved: true
             username: 'prometheus-operator-gar3'
             channel: 'prometheus-operator'
-            api_url: 'https://hooks.slack.com/services/xxxxxxxxxxxxxxxxxxxxxxx'
+            api_url: 'https://hooks.slack.com/services/xxx'
             title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
             title_link: "https://alertmanager.example.com:9093"
             text: >-
@@ -133,7 +145,7 @@ prometheus-operator:
           - send_resolved: true
             username: 'prometheus-operator-gar3'
             channel: 'prometheus-operator'
-            api_url: 'https://hooks.slack.com/services/xxxxxxxxxxxxxxxxxxxxxxx'
+            api_url: 'https://hooks.slack.com/services/xxx'
             title: '{{ if ne .Status "firing" }}[{{ .Status | toUpper }}]{{ end }} {{ .CommonAnnotations.summary }}{{ .CommonAnnotations.message }}'
             title_link: "https://alertmanager.example.com:9093"
             text: >-
@@ -179,3 +191,31 @@ prometheus-operator:
       - secretName: grafana-general-tls
         hosts:
         - grafana.example.com
+
+    ## Configure additional grafana datasources
+    ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+    additionalDataSources:
+    # - name: prometheus-sample
+    #   access: proxy
+    #   basicAuth: true
+    #   basicAuthPassword: pass
+    #   basicAuthUser: daco
+    #   editable: false
+    #   jsonData:
+    #       tlsSkipVerify: true
+    #   orgId: 1
+    #   type: prometheus
+    #   url: https://prometheus.svc:9090
+    #   version: 1
+    - name: loki
+      access: proxy
+      basicAuth: true
+      basicAuthPassword: pass
+      basicAuthUser: daco
+      editable: false
+      jsonData:
+          tlsSkipVerify: true
+      orgId: 1
+      type: loki
+      url: http://loki:3100
+      version: 1
