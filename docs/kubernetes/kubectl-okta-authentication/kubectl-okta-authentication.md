@@ -86,8 +86,8 @@ Add this content into your AWS config file `~/.aws/config`
 
 ```
 [okta]
-aws_saml_url = home/amazon_aws/0oa6kbgg95juqUgTY1t7/272
-role_arn = arn:aws:iam::354114410416:role/Engineering
+aws_saml_url = home/amazon_aws/your-id/128
+role_arn = arn:aws:iam::12838474918394:role/Engineering
 ```
 
 ## Run command that will authenticate and execute a kubectl command
