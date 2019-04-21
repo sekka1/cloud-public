@@ -80,7 +80,7 @@ prometheus-operator:
         # https://github.com/coreos/prometheus-operator/issues/2171#issuecomment-465525316
         - match_re:
             alertname: CPUThrottlingHigh
-            container_name: "prometheus-config-reloader|config-reloader|rules-configmap-reloader|metrics-server-nanny|metrics-server|heapster-nanny|heapster|default-http-backend"
+            container_name: "prometheus-config-reloader|config-reloader|rules-configmap-reloader|metrics-server-nanny|metrics-server|heapster-nanny|heapster|default-http-backend|prometheus-to-sd"
           receiver: 'null'
         # GKE does not have the kube-* pods running in the kube-system namespace.  Silencing them.
         - match_re:
