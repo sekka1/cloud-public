@@ -1,0 +1,133 @@
+---
+namespace: app
+
+replicas: 1
+
+commonLabels:
+  env: dev
+  group: devops
+  application: api
+
+deploymentStrategy: RollingUpdate
+
+image:
+  repository: my-container
+  tag: v0.0.1
+  #pullPolicy: IfNotPresent
+  pullPolicy: Always
+
+env:
+- name: ENVIRONMENT
+  value: dev
+# AWS Keys
+- name: SECRET_KEY_BASE
+  valueFrom:
+    secretKeyRef:
+      name: secret
+      key: secret_key_base
+- name: AWS_ACCESS_KEY_ID
+  valueFrom:
+    secretKeyRef:
+      name: secret
+      key: aws_access_key_id
+- name: AWS_SECRET_ACCESS_KEY
+  valueFrom:
+    secretKeyRef:
+      name: secret
+      key: aws_secret_access_key
+
+ports:
+- name: http
+  containerPort: 3000
+  protocol: TCP
+
+resources:
+ limits:
+   cpu: 1000m
+   memory: 1024Mi
+ requests:
+   cpu: 50m
+   memory: 64Mi
+
+readinessProbe: {}
+ # failureThreshold: 3
+ # httpGet:
+ #   path: /metrics
+ #   port: 9101
+ #   scheme: HTTP
+ # initialDelaySeconds: 5
+ # periodSeconds: 5
+ # successThreshold: 1
+ # timeoutSeconds: 5
+
+livenessProbe: {}
+ # failureThreshold: 3
+ # httpGet:
+ #   path: /metrics
+ #   port: 9101
+ #   scheme: HTTP
+ # initialDelaySeconds: 5
+ # periodSeconds: 10
+ # successThreshold: 1
+ # timeoutSeconds: 5
+
+# volumeMounts:
+# - name: database-yml
+#   mountPath: /app/config/database.yml
+#   subPath: database.yml
+#
+# volumes:
+# - name: database-yml
+#   configMap:
+#     name: database-yml
+
+# imagePullSecrets:
+# - name: registry-secret
+
+## Node labels for pod assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+#
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## Affinity for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+restartPolicy: Always
+
+service:
+  enabled: true
+
+servicePorts:
+- name: http
+  port: 3000
+  protocol: TCP
+  targetPort: 3000
+
+ingress: {}
+#   enabled: true
+#   annotations:
+#     kubernetes.io/ingress.class: kong-k8sbot
+#     #kubernetes.io/tls-acme: "false"
+#     rate-limiting.plugin.konghq.com: rate-limiting, key-auth
+#   labels: {}
+#   host: api.xxx-evn--xxx.managedkube.com
+#   tls: []
+#  - secretName: chart-example-tls
+#    hosts:
+#      - chart-example.local
+  # paths:
+  # - path: /
+  #   backend:
+  #     serviceName: slack-oauth
+  #     servicePort: 5000
+#  - path: /api
+#    backend:
+#      serviceName: foo2
+#      servicePort: 8082

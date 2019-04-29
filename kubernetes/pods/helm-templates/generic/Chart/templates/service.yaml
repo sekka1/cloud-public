@@ -1,0 +1,25 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: {{ template "unit.name" . }}
+    chart: {{ template "unit.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.commonLabels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+  name: {{ .Release.Name }}
+  namespace: {{ .Values.namespace }}
+spec:
+{{- with .Values.servicePorts }}
+  ports:
+{{ toYaml . | indent 2 }}
+{{- end }}
+
+  selector:
+    service-selector: {{ .Release.Name }}
+  sessionAffinity: None
+  type: ClusterIP
+{{- end }}
